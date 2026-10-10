@@ -17,12 +17,13 @@ export async function fetchContactMessages() {
 }
 
 export async function deleteContactMessage(id: string | number) {
-  const { error } = await getSupabase()
+  const { error, count } = await getSupabase()
     .from('contact_submissions')
-    .delete()
+    .delete({ count: 'exact' })
     .eq('id', id);
     
   if (error) throw new Error(error.message);
+  if (count === 0) throw new Error("Deletion blocked by Supabase RLS. Please add a DELETE policy in your Supabase dashboard.");
   return { success: true };
 }
 
@@ -89,12 +90,13 @@ export async function fetchApplications() {
 }
 
 export async function deleteJob(id: string | number) {
-  const { error } = await getSupabase()
+  const { error, count } = await getSupabase()
     .from('jobs')
-    .delete()
+    .delete({ count: 'exact' })
     .eq('id', id);
     
   if (error) throw new Error(error.message);
+  if (count === 0) throw new Error("Deletion blocked by Supabase RLS. Please add a DELETE policy in your Supabase dashboard.");
   return { success: true };
 }
 
@@ -105,12 +107,13 @@ export function getResumeUrl(path: string) {
 }
 
 export async function deleteApplication(id: string | number) {
-  const { error } = await getSupabase()
+  const { error, count } = await getSupabase()
     .from('job_applications')
-    .delete()
+    .delete({ count: 'exact' })
     .eq('id', id);
     
   if (error) throw new Error(error.message);
+  if (count === 0) throw new Error("Deletion blocked by Supabase RLS. Please add a DELETE policy in your Supabase dashboard.");
   return { success: true };
 }
 
