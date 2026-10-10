@@ -6,6 +6,7 @@ import { MessagesView } from '@/components/views/MessagesView';
 import { JobsView } from '@/components/views/JobsView';
 import { ApplicationsView } from '@/components/views/ApplicationsView';
 import { SettingsView } from '@/components/views/SettingsView';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { LoginView } from '@/components/views/LoginView';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { supabase } from '@/lib/supabase';
@@ -159,6 +160,7 @@ export default function AdminDashboard() {
           </div>
 
           <div className="flex items-center gap-5">
+            <ThemeToggle />
             <span className="hidden text-xs text-muted lg:block">{today}</span>
             <div className="hidden h-6 w-px bg-border lg:block" />
             <div className="flex items-center gap-3">

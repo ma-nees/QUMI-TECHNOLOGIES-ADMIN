@@ -9,20 +9,32 @@
   text-muted, bg-surface-alt, shadow-soft, font-serif.
 */
 @theme {
-  --color-primary: #ffffff;
-  --color-accent: #8b5cf6; /* Electric Violet */
-  --color-background: #09090b; /* Deep zinc */
-  --color-surface: rgba(24, 24, 27, 0.65); /* Glassmorphic surface */
-  --color-surface-alt: rgba(39, 39, 42, 0.8);
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-body: #a1a1aa; /* Light zinc for readability */
-  --color-muted: #71717a; /* Darker zinc for secondary elements */
+  --color-primary: var(--app-primary);
+  --color-accent: var(--app-accent);
+  --color-background: var(--app-background);
+  --color-surface: var(--app-surface);
+  --color-surface-alt: var(--app-surface-alt);
+  --color-border: var(--app-border);
+  --color-body: var(--app-body);
+  --color-muted: var(--app-muted);
+
+  --color-danger-bg: var(--app-danger-bg);
+  --color-danger-text: var(--app-danger-text);
+  --color-danger-border: var(--app-danger-border);
+  
+  --color-success-bg: var(--app-success-bg);
+  --color-success-text: var(--app-success-text);
+  --color-success-border: var(--app-success-border);
+  
+  --color-info-bg: var(--app-info-bg);
+  --color-info-text: var(--app-info-text);
+  --color-info-border: var(--app-info-border);
 
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'Playfair Display', ui-serif, Georgia, 'Times New Roman', serif;
 
-  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --shadow-medium: 0 12px 30px -4px rgba(0, 0, 0, 0.8), 0 0 40px rgba(139, 92, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --shadow-soft: var(--app-shadow-soft);
+  --shadow-medium: var(--app-shadow-medium);
 
   /* Advanced Smooth Animations */
   --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -30,40 +42,77 @@
   --animate-slide-in-right: slide-in-right 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   
   @keyframes fade-in-up {
-    0% {
-      opacity: 0;
-      transform: translateY(12px);
-      filter: blur(2px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
+    0% { opacity: 0; transform: translateY(12px); filter: blur(2px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
 
   @keyframes pop-in {
-    0% {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
   }
 
   @keyframes slide-in-right {
-    0% {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    0% { opacity: 0; transform: translateX(100%); }
+    100% { opacity: 1; transform: translateX(0); }
   }
 }
+
+@layer base {
+  :root {
+    --app-primary: #243252;
+    --app-accent: #c8a44d;
+    --app-background: #f6f5f1;
+    --app-surface: #ffffff;
+    --app-surface-alt: #fcfbf8;
+    --app-border: #e6e2da;
+    --app-body: #5b6472;
+    --app-muted: #8a909c;
+
+    --app-danger-bg: #fef2f2;
+    --app-danger-text: #b91c1c;
+    --app-danger-border: #fee2e2;
+    
+    --app-success-bg: #f0fdf4;
+    --app-success-text: #15803d;
+    --app-success-border: #bbf7d0;
+    
+    --app-info-bg: #faf5ff;
+    --app-info-text: #7e22ce;
+    --app-info-border: #e9d5ff;
+
+    --app-shadow-soft: 0 4px 20px -2px rgba(36, 50, 82, 0.05), 0 0 3px rgba(36, 50, 82, 0.02);
+    --app-shadow-medium: 0 12px 30px -4px rgba(36, 50, 82, 0.1), 0 4px 6px rgba(36, 50, 82, 0.05);
+    
+    --app-bg-image: none;
+  }
+
+  .dark {
+    --app-primary: #ffffff;
+    --app-accent: #8b5cf6;
+    --app-background: #09090b;
+    --app-surface: rgba(24, 24, 27, 0.65);
+    --app-surface-alt: rgba(39, 39, 42, 0.8);
+    --app-border: rgba(255, 255, 255, 0.1);
+    --app-body: #a1a1aa;
+    --app-muted: #71717a;
+
+    --app-danger-bg: rgba(239, 68, 68, 0.1);
+    --app-danger-text: #f87171;
+    --app-danger-border: rgba(239, 68, 68, 0.2);
+    
+    --app-success-bg: rgba(34, 197, 94, 0.1);
+    --app-success-text: #4ade80;
+    --app-success-border: rgba(34, 197, 94, 0.2);
+    
+    --app-info-bg: rgba(168, 85, 247, 0.1);
+    --app-info-text: #c084fc;
+    --app-info-border: rgba(168, 85, 247, 0.2);
+
+    --app-shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --app-shadow-medium: 0 12px 30px -4px rgba(0, 0, 0, 0.8), 0 0 40px rgba(139, 92, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    
+    --app-bg-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%);
+  }
 
 @layer base {
   html {
