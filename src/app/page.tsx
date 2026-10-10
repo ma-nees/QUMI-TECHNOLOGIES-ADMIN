@@ -142,19 +142,19 @@ export default function AdminDashboard() {
 
       {/* Main content */}
       <main className="flex min-w-0 w-full flex-1 flex-col overflow-y-auto">
-        <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border bg-surface/80 px-4 backdrop-blur-md sm:h-[72px] sm:px-8">
+        <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border bg-surface/80 px-4 backdrop-blur-md sm:h-[88px] sm:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <button
               className="-ml-2 rounded-md p-2 text-primary transition-colors hover:bg-surface-alt md:hidden"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-label="Open menu"
             >
-              <Menu size={22} />
+              <Menu size={28} strokeWidth={2.5} />
             </button>
-            <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-sm">
+            <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-base md:text-sm">
               <span className="hidden text-muted sm:inline">Administration</span>
               <span className="hidden text-border sm:inline">/</span>
-              <span className="truncate font-semibold text-primary">{activeTab}</span>
+              <span className="truncate font-bold text-lg md:text-base md:font-semibold text-primary">{activeTab}</span>
             </nav>
           </div>
 

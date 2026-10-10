@@ -290,46 +290,42 @@ export function JobsView() {
             return (
               <article
                 key={job.id}
-                className="group flex flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-soft transition hover:-translate-y-0.5 hover:shadow-medium"
+                onClick={() => openEditPanel(job)}
+                className="group flex cursor-pointer overflow-hidden rounded-lg border border-border bg-surface shadow-soft transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-medium"
               >
-                <div className={`h-1 ${job.is_open ? 'bg-primary' : 'bg-border'}`} />
-                <div className="flex flex-1 flex-col p-6">
+                <div className={`w-1.5 shrink-0 ${job.is_open ? 'bg-primary' : 'bg-border'}`} />
+                <div className="flex flex-1 flex-col p-4 sm:p-5">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-serif text-lg font-bold leading-snug text-primary">{job.title}</h3>
+                    <div>
+                      <h3 className="font-serif text-base sm:text-lg font-bold leading-snug text-primary transition-colors group-hover:text-primary/80">{job.title}</h3>
+                      <ul className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted sm:text-sm">
+                        <li className="flex items-center gap-1">
+                          <Building2 size={13} className="shrink-0" /> {job.department}
+                        </li>
+                        <li className="flex items-center gap-1">
+                          <MapPin size={13} className="shrink-0" /> {job.location}
+                        </li>
+                        {job.employment_type && (
+                          <li className="flex items-center gap-1">
+                            <Clock size={13} className="shrink-0" /> {job.employment_type}
+                          </li>
+                        )}
+                      </ul>
+                    </div>
                     <span
-                      className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${job.is_open ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                        }`}
+                      className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider sm:px-2.5 sm:py-1 ${
+                        job.is_open ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                      }`}
                     >
                       {job.is_open ? 'Open' : 'Closed'}
                     </span>
                   </div>
 
-                  <ul className="mt-4 space-y-2 text-sm text-muted">
-                    <li className="flex items-center gap-2">
-                      <Building2 size={15} className="shrink-0" /> {job.department}
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <MapPin size={15} className="shrink-0" /> {job.location}
-                    </li>
-                    {job.employment_type && (
-                      <li className="flex items-center gap-2">
-                        <Clock size={15} className="shrink-0" /> {job.employment_type}
-                      </li>
-                    )}
-                  </ul>
-
-                  {job.summary && <p className="mt-4 text-sm leading-relaxed text-body/80">{job.summary}</p>}
-
-                  <div className="mt-5 flex items-center justify-between pt-1">
-                    <span className="text-xs text-muted">{posted ?? ''}</span>
-                    {job.description && (
-                      <button
-                        onClick={() => openEditPanel(job)}
-                        className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-primary hover:underline"
-                      >
-                        View details
-                      </button>
-                    )}
+                  <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-3">
+                    <span className="text-[11px] text-muted sm:text-xs">{posted ?? ''}</span>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary group-hover:underline sm:text-xs">
+                      Edit details
+                    </span>
                   </div>
                 </div>
               </article>
