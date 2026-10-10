@@ -353,9 +353,12 @@ export function JobsView() {
 
                   <div className="mt-4 flex items-center justify-between border-t border-border/40 pt-3 opacity-70 transition-opacity group-hover:opacity-100">
                     <span className="text-[10px] uppercase tracking-wider text-muted sm:text-[11px]">{posted ?? ''}</span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-primary sm:text-[11px]">
-                      {job.is_open ? 'Accepting applications' : 'Closed'}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2 w-2 rounded-full ${job.is_open ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.3)]'}`} />
+                      <span className={`text-[10px] font-bold uppercase tracking-wider sm:text-[11px] ${job.is_open ? 'text-emerald-500' : 'text-red-500'}`}>
+                        {job.is_open ? 'Accepting applications' : 'Closed'}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </article>
