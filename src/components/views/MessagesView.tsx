@@ -89,19 +89,20 @@ export function MessagesView() {
   const [isSending, setIsSending] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [actionStatus, setActionStatus] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
 
-  const handleDelete = async () => {
+  const confirmDelete = async () => {
     if (!selected) return;
-    if (!confirm('Are you sure you want to delete this message? This action cannot be undone.')) return;
     setIsDeleting(true);
     try {
       await deleteContactMessage(selected.id);
       setMessages(prev => prev.filter(m => m.id !== selected.id));
       setSelectedId(null);
       setShowDetail(false);
+      setShowDeleteConfirm(false);
     } catch (err: any) {
-      alert("Failed to delete message: " + err.message);
+      setActionStatus({ type: 'error', msg: "Failed to delete message: " + err.message });
     } finally {
       setIsDeleting(false);
     }
@@ -461,12 +462,12 @@ export function MessagesView() {
                       </div>
                       
                       <button
-                        onClick={handleDelete}
+                        onClick={() => setShowDeleteConfirm(true)}
                         disabled={isDeleting}
                         className="inline-flex items-center gap-2 rounded-md border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-400 shadow-soft transition-all duration-200 hover:bg-red-500/20 active:scale-[0.98] disabled:opacity-50"
                       >
-                        {isDeleting ? <RefreshCw size={16} className="animate-spin" /> : <Trash2 size={16} />}
-                        {isDeleting ? 'Deleting...' : 'Delete'}
+                        <Trash2 size={16} />
+                        Delete
                       </button>
                     </div>
                   )}
@@ -484,6 +485,41 @@ export function MessagesView() {
           </div>
         </div>
       </div>
+
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in-up" style={{ animationDuration: '0.2s' }}>
+          <div className="w-full max-w-md overflow-hidden rounded-xl bg-surface shadow-2xl border border-border animate-pop-in" style={{ animationDuration: '0.3s' }}>
+            <div className="p-6">
+              <div className="flex items-center gap-3 text-red-500 mb-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/10">
+                  <AlertCircle size={20} />
+                </div>
+                <h3 className="text-lg font-semibold text-primary">Delete Message</h3>
+              </div>
+              <p className="text-[15px] leading-relaxed text-body">
+                Are you sure you want to delete this message from <span className="font-semibold text-primary">{selected?.name}</span>? This action cannot be undone.
+              </p>
+            </div>
+            <div className="flex items-center justify-end gap-3 bg-surface-alt/50 px-6 py-4 border-t border-border">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={isDeleting}
+                className="rounded-md px-4 py-2 text-sm font-medium text-muted transition hover:text-primary disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={isDeleting}
+                className="inline-flex items-center gap-2 rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600 disabled:opacity-50 shadow-soft"
+              >
+                {isDeleting ? <RefreshCw size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                {isDeleting ? 'Deleting...' : 'Delete Message'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
