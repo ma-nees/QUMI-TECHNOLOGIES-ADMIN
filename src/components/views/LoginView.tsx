@@ -66,8 +66,8 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             backgroundSize: '48px 48px',
           }}
         />
-        <div aria-hidden="true" className="absolute -bottom-40 -right-40 h-[28rem] w-[28rem] rounded-full border border-white/10" />
-        <div aria-hidden="true" className="absolute -bottom-24 -right-24 h-[20rem] w-[20rem] rounded-full border border-white/10" />
+        <div aria-hidden="true" className="absolute -bottom-40 -right-40 h-[28rem] w-[28rem] rounded-full border border-background/10" />
+        <div aria-hidden="true" className="absolute -bottom-24 -right-24 h-[20rem] w-[20rem] rounded-full border border-background/10" />
 
         <div className="relative">
           <div className="flex items-center gap-3">
@@ -76,16 +76,16 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             </div>
             <div>
               <div className="font-serif text-xl font-bold tracking-wide">QUMI</div>
-              <div className="text-xs uppercase tracking-[0.2em] text-white/70">Institute Administration</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-background/70">Institute Administration</div>
             </div>
           </div>
         </div>
 
         <div className="relative max-w-lg">
-          <h2 className="font-serif text-4xl xl:text-5xl font-bold leading-tight text-white">
+          <h2 className="font-serif text-4xl xl:text-5xl font-bold leading-tight text-background">
             Administration portal for institute staff
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-white/80">
+          <p className="mt-5 text-base leading-relaxed text-background/80">
             Sign in to manage records, oversee operations and keep the institute running smoothly.
           </p>
 
@@ -95,14 +95,14 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
                 <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-white/80" />
                 <div>
                   <div className="text-sm font-semibold uppercase tracking-wider">{item.title}</div>
-                  <p className="mt-1 text-sm leading-relaxed text-white/70">{item.text}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-background/70">{item.text}</p>
                 </div>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="relative text-xs text-white/60">
+        <div className="relative text-xs text-background/60">
           &copy; {new Date().getFullYear()} QUMI. All rights reserved.
         </div>
       </aside>

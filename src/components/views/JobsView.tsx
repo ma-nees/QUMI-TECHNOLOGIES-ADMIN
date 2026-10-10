@@ -257,7 +257,7 @@ export function JobsView() {
           <p className="text-sm text-muted">{loadError}</p>
           <button
             onClick={loadJobs}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-white shadow-soft hover:bg-primary/90"
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-background shadow-soft hover:bg-primary/90"
           >
             <RefreshCw size={14} /> Try again
           </button>
@@ -276,7 +276,7 @@ export function JobsView() {
           {!jobs.length && (
             <button
               onClick={openCreatePanel}
-              className="mt-2 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-white shadow-soft hover:bg-primary/90"
+              className="mt-2 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-background shadow-soft hover:bg-primary/90"
             >
               <Plus size={16} /> Post new job
             </button>
@@ -327,7 +327,7 @@ export function JobsView() {
                     </div>
                     
                     {/* Floating Action Button style arrow */}
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-alt text-muted transition-all duration-300 group-hover:bg-primary group-hover:text-white">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-alt text-muted transition-all duration-300 group-hover:bg-primary group-hover:text-background">
                       <ChevronDown size={16} className="-rotate-90" />
                     </div>
                   </div>

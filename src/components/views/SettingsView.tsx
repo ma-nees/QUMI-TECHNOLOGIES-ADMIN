@@ -300,13 +300,13 @@ export function SettingsView() {
                 <ul className="mt-5 space-y-3 text-sm">
                   <li className="flex items-start gap-3">
                     <MapPin size={16} className="mt-0.5 shrink-0 text-background/60" />
-                    <span className={settings.location ? '' : 'text-white/40'}>
+                    <span className={settings.location ? '' : 'text-background/40'}>
                       {settings.location || 'Location not set'}
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Phone size={16} className="mt-0.5 shrink-0 text-background/60" />
-                    <span className={settings.mobile_number ? '' : 'text-white/40'}>
+                    <span className={settings.mobile_number ? '' : 'text-background/40'}>
                       {settings.mobile_number || 'Phone number not set'}
                     </span>
                   </li>
@@ -319,7 +319,7 @@ export function SettingsView() {
                       <span
                         key={s.key}
                         title={s.label}
-                        className={`flex h-9 w-9 items-center justify-center rounded-full border text-[11px] font-bold uppercase transition ${active ? 'border-background/60 bg-background/15 text-white' : 'border-background/15 text-background/25'
+                        className={`flex h-9 w-9 items-center justify-center rounded-full border text-[11px] font-bold uppercase transition ${active ? 'border-background/60 bg-background/15 text-background' : 'border-background/15 text-background/25'
                           }`}
                       >
                         {s.mark}
@@ -328,7 +328,7 @@ export function SettingsView() {
                   })}
                 </div>
               </div>
-              <div className="border-t border-white/10 bg-black/10 px-6 py-3 text-xs text-white/70">
+              <div className="border-t border-background/10 bg-black/5 px-6 py-3 text-xs text-background/70">
                 {connected} of {SOCIALS.length} social channels linked
               </div>
             </div>

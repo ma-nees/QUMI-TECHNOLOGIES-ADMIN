@@ -162,7 +162,7 @@ export default function AdminDashboard() {
             <span className="hidden text-xs text-muted lg:block">{today}</span>
             <div className="hidden h-6 w-px bg-border lg:block" />
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white shadow-soft sm:h-10 sm:w-10">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-xs font-semibold text-background shadow-soft sm:h-10 sm:w-10">
                 {initialsFromEmail(email)}
               </div>
               <div className="hidden min-w-0 sm:block">

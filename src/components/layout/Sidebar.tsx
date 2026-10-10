@@ -97,7 +97,7 @@ export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
                 <span className="block truncate text-[11px] font-normal text-muted">{item.hint}</span>
               </span>
               {typeof count === 'number' && count > 0 && (
-                <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-white">
+                <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-background">
                   {count > 99 ? '99+' : count}
                 </span>
               )}
@@ -109,7 +109,7 @@ export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
       {/* Account */}
       <div className="border-t border-border p-4">
         <div className="flex items-center gap-3 rounded-md bg-surface-alt/60 p-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-background">
             {initialsFromEmail(email)}
           </div>
           <div className="min-w-0">

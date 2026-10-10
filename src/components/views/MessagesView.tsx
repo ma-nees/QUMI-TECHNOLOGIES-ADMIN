@@ -274,7 +274,7 @@ export function MessagesView() {
                   <p className="text-sm text-muted">{error}</p>
                   <button
                     onClick={load}
-                    className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-white shadow-soft hover:bg-primary/90"
+                    className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-background shadow-soft hover:bg-primary/90"
                   >
                     <RefreshCw size={14} /> Try again
                   </button>
@@ -339,7 +339,7 @@ export function MessagesView() {
                   </button>
 
                   <div className="flex items-start gap-4">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-white">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-background">
                       {initials(selected.name)}
                     </div>
                     <div className="min-w-0">

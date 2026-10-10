@@ -208,7 +208,7 @@ export function ApplicationsView() {
               </button>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-white">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-background">
                   {initials(selected.name)}
                 </div>
                 <div className="min-w-0">
