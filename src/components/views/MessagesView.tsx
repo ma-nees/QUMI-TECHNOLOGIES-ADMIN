@@ -434,33 +434,36 @@ export function MessagesView() {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex flex-wrap items-center gap-3 p-4 sm:px-8">
-                      <button
-                        onClick={() => {
-                          setReplyText('');
-                          setIsComposing(true);
-                        }}
-                        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98]"
-                      >
-                        <Mail size={16} /> Reply here
-                      </button>
-                      <a
-                        href={`mailto:${selected.email}?subject=${encodeURIComponent(`Re: ${selected.topic || 'Your enquiry'}`)}`}
-                        className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium text-primary transition hover:border-primary/40"
-                      >
-                        Open email app
-                      </a>
-                      <button
-                        onClick={() => copyEmail(selected.email)}
-                        className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium text-primary transition hover:border-primary/40"
-                      >
-                        {copied ? <Check size={16} className="text-green-600" /> : <Copy size={16} />}
-                        {copied ? 'Copied' : 'Copy email'}
-                      </button>
+                    <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:px-8">
+                      <div className="flex flex-wrap items-center gap-3">
+                        <button
+                          onClick={() => {
+                            setReplyText('');
+                            setIsComposing(true);
+                          }}
+                          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98]"
+                        >
+                          <Mail size={16} /> Reply here
+                        </button>
+                        <a
+                          href={`mailto:${selected.email}?subject=${encodeURIComponent(`Re: ${selected.topic || 'Your enquiry'}`)}`}
+                          className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium text-primary transition hover:border-primary/40"
+                        >
+                          Open email app
+                        </a>
+                        <button
+                          onClick={() => copyEmail(selected.email)}
+                          className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium text-primary transition hover:border-primary/40"
+                        >
+                          {copied ? <Check size={16} className="text-green-600" /> : <Copy size={16} />}
+                          {copied ? 'Copied' : 'Copy email'}
+                        </button>
+                      </div>
+                      
                       <button
                         onClick={handleDelete}
                         disabled={isDeleting}
-                        className="ml-auto inline-flex items-center gap-2 rounded-md border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-400 shadow-soft transition-all duration-200 hover:bg-red-500/20 active:scale-[0.98] disabled:opacity-50"
+                        className="inline-flex items-center gap-2 rounded-md border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-400 shadow-soft transition-all duration-200 hover:bg-red-500/20 active:scale-[0.98] disabled:opacity-50"
                       >
                         {isDeleting ? <RefreshCw size={16} className="animate-spin" /> : <Trash2 size={16} />}
                         {isDeleting ? 'Deleting...' : 'Delete'}
