@@ -254,7 +254,7 @@ export function MessagesView() {
                       key={t}
                       onClick={() => setTopic(t)}
                       className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-wider transition ${topic === t
-                          ? 'border-primary bg-primary text-white'
+                          ? 'border-primary bg-primary text-background'
                           : 'border-border bg-background text-muted hover:border-primary/40 hover:text-primary'
                         }`}
                     >
@@ -383,8 +383,8 @@ export function MessagesView() {
                       {actionStatus && (
                         <div className={`flex items-start gap-2 rounded-md p-3 text-sm ${
                           actionStatus.type === 'success' 
-                            ? 'bg-green-50 text-green-700 border border-green-200' 
-                            : 'bg-red-50 text-red-700 border border-red-200'
+                            ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
+                            : 'bg-red-500/10 text-red-400 border border-red-500/20'
                         }`}>
                           {actionStatus.type === 'success' ? <Check size={16} className="mt-0.5 shrink-0" /> : <AlertCircle size={16} className="mt-0.5 shrink-0" />}
                           {actionStatus.msg}
@@ -400,7 +400,7 @@ export function MessagesView() {
                         <button
                           onClick={handleEnhance}
                           disabled={isEnhancing || !replyText.trim()}
-                          className="inline-flex items-center gap-2 rounded-md border border-purple-200 bg-purple-50 px-4 py-2.5 text-sm font-medium text-purple-700 shadow-soft transition hover:bg-purple-100 disabled:opacity-50"
+                          className="inline-flex items-center gap-2 rounded-md border border-purple-500/20 bg-purple-500/10 px-4 py-2.5 text-sm font-medium text-purple-400 shadow-soft transition hover:bg-purple-500/20 disabled:opacity-50"
                         >
                           <Wand2 size={16} className={isEnhancing ? "animate-pulse" : ""} />
                           {isEnhancing ? 'Enhancing...' : 'Enhance with AI'}
@@ -408,7 +408,7 @@ export function MessagesView() {
                         <button
                           onClick={handleSendReply}
                           disabled={isSending || !replyText.trim()}
-                          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-white shadow-soft transition hover:bg-primary/90 disabled:opacity-50"
+                          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition hover:bg-primary/90 disabled:opacity-50"
                         >
                           {isSending ? <RefreshCw size={16} className="animate-spin" /> : <Mail size={16} />}
                           {isSending ? 'Sending...' : 'Send Reply'}
@@ -422,7 +422,7 @@ export function MessagesView() {
                           setReplyText('');
                           setIsComposing(true);
                         }}
-                        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-white shadow-soft transition hover:bg-primary/90"
+                        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition hover:bg-primary/90"
                       >
                         <Mail size={16} /> Reply here
                       </button>

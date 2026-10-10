@@ -189,7 +189,7 @@ export function SettingsView() {
       </div>
 
       {loadError && (
-        <div role="alert" className="flex items-center justify-between gap-4 rounded-md border border-red-100 bg-red-50 p-4 text-sm text-red-700">
+        <div role="alert" className="flex items-center justify-between gap-4 rounded-md border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400">
           <span className="flex items-start gap-3">
             <AlertCircle size={18} className="mt-0.5 shrink-0" />
             {loadError}
@@ -292,20 +292,20 @@ export function SettingsView() {
 
           {/* Preview */}
           <aside className="space-y-4 lg:sticky lg:top-6">
-            <div className="overflow-hidden rounded-lg bg-primary text-white shadow-medium">
+            <div className="overflow-hidden rounded-lg bg-primary text-background shadow-medium">
               <div className="p-6">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60">Website preview</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-background/60">Website preview</p>
                 <div className="mt-4 font-serif text-xl font-bold tracking-wide">QUMI</div>
 
                 <ul className="mt-5 space-y-3 text-sm">
                   <li className="flex items-start gap-3">
-                    <MapPin size={16} className="mt-0.5 shrink-0 text-white/60" />
+                    <MapPin size={16} className="mt-0.5 shrink-0 text-background/60" />
                     <span className={settings.location ? '' : 'text-white/40'}>
                       {settings.location || 'Location not set'}
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Phone size={16} className="mt-0.5 shrink-0 text-white/60" />
+                    <Phone size={16} className="mt-0.5 shrink-0 text-background/60" />
                     <span className={settings.mobile_number ? '' : 'text-white/40'}>
                       {settings.mobile_number || 'Phone number not set'}
                     </span>
@@ -319,7 +319,7 @@ export function SettingsView() {
                       <span
                         key={s.key}
                         title={s.label}
-                        className={`flex h-9 w-9 items-center justify-center rounded-full border text-[11px] font-bold uppercase transition ${active ? 'border-white/60 bg-white/15 text-white' : 'border-white/15 text-white/25'
+                        className={`flex h-9 w-9 items-center justify-center rounded-full border text-[11px] font-bold uppercase transition ${active ? 'border-background/60 bg-background/15 text-white' : 'border-background/15 text-background/25'
                           }`}
                       >
                         {s.mark}
@@ -399,7 +399,7 @@ export function SettingsView() {
                 <button
                   type="submit"
                   disabled={!dirty || saving}
-                  className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-white shadow-soft transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-background shadow-soft transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving && <Loader2 size={15} className="animate-spin" />}
                   {saving ? 'Saving' : 'Save settings'}

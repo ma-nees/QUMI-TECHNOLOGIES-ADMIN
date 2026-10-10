@@ -86,7 +86,7 @@ export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
               />
               <span
                 className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md border transition-colors ${active
-                    ? 'border-primary/20 bg-primary text-white shadow-soft'
+                    ? 'border-primary/20 bg-primary text-background shadow-soft'
                     : 'border-border bg-background group-hover:border-primary/30'
                   }`}
               >
@@ -121,7 +121,7 @@ export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
         <button
           onClick={handleLogout}
           disabled={signingOut}
-          className="mt-3 flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium text-muted transition-colors hover:bg-red-50 hover:text-red-700 disabled:opacity-60"
+          className="mt-3 flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium text-muted transition-colors hover:bg-red-500/10 hover:text-red-400 disabled:opacity-60"
         >
           <span className="flex w-5 items-center justify-center">
             {signingOut ? <Loader2 size={18} className="animate-spin" /> : <LogOut size={18} />}

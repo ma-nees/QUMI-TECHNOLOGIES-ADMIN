@@ -56,7 +56,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
   return (
     <div className="min-h-screen grid lg:grid-cols-[1.05fr_1fr] bg-background font-sans">
       {/* Brand panel */}
-      <aside className="relative hidden lg:flex flex-col justify-between bg-primary text-white p-12 xl:p-16 overflow-hidden">
+      <aside className="relative hidden lg:flex flex-col justify-between bg-primary text-background p-12 xl:p-16 overflow-hidden">
         <div
           aria-hidden="true"
           className="absolute inset-0 opacity-[0.07]"
@@ -111,7 +111,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
       <main className="flex items-center justify-center px-5 py-12 sm:px-10">
         <div className="w-full max-w-md">
           <div className="lg:hidden mb-8 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary text-white font-serif text-lg font-bold">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary text-background font-serif text-lg font-bold">
               Q
             </div>
             <div>
@@ -132,7 +132,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
               <div
                 role="alert"
                 aria-live="polite"
-                className="mb-6 flex items-start gap-3 rounded-md border border-red-100 bg-red-50 p-3 text-sm text-red-700"
+                className="mb-6 flex items-start gap-3 rounded-md border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-400"
               >
                 <AlertCircle size={18} className="mt-0.5 shrink-0" />
                 <span>{error}</span>
@@ -191,7 +191,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center gap-2 bg-primary text-white py-3 rounded-md text-sm font-semibold tracking-wide hover:bg-primary/90 transition-all shadow-soft disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full inline-flex items-center justify-center gap-2 bg-primary text-background py-3 rounded-md text-sm font-semibold tracking-wide hover:bg-primary/90 transition-all shadow-soft disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <>
