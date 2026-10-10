@@ -373,9 +373,9 @@ export function JobsView() {
           />
           <form
             onSubmit={handleSave}
-            className="relative flex h-full w-full max-w-xl flex-col bg-surface shadow-medium animate-slide-in-right"
+            className="relative flex h-full w-full max-w-xl flex-col bg-background shadow-medium animate-slide-in-right"
           >
-            <div className="flex items-start justify-between border-b border-border p-6">
+            <div className="flex items-start justify-between border-b border-border bg-surface/30 p-6">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">{formData.id ? 'Edit position' : 'New position'}</p>
                 <h3 id="new-job-title" className="mt-1 font-serif text-xl font-bold text-primary">
@@ -462,7 +462,7 @@ export function JobsView() {
               </Field>
 
               <Field id="job-desc" label="Full description">
-                <div className="relative">
+                <div className="flex flex-col gap-3">
                   <textarea
                     id="job-desc"
                     required
@@ -472,31 +472,33 @@ export function JobsView() {
                     placeholder="Responsibilities, requirements and how to apply"
                     className={inputClass}
                   />
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      if (!formData.description.trim()) return;
-                      setIsEnhancingDesc(true);
-                      setFormError(null);
-                      try {
-                        const res = await enhanceTextWithAI(formData.description, 'description');
-                        if (res.success && res.enhancedText) {
-                          setFormData({ ...formData, description: res.enhancedText });
-                        } else {
-                          setFormError("Failed to enhance description: " + (res as any).error);
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (!formData.description.trim()) return;
+                        setIsEnhancingDesc(true);
+                        setFormError(null);
+                        try {
+                          const res = await enhanceTextWithAI(formData.description, 'description');
+                          if (res.success && res.enhancedText) {
+                            setFormData({ ...formData, description: res.enhancedText });
+                          } else {
+                            setFormError("Failed to enhance description: " + (res as any).error);
+                          }
+                        } catch (err: any) {
+                          setFormError("An unexpected error occurred: " + err.message);
+                        } finally {
+                          setIsEnhancingDesc(false);
                         }
-                      } catch (err: any) {
-                        setFormError("An unexpected error occurred: " + err.message);
-                      } finally {
-                        setIsEnhancingDesc(false);
-                      }
-                    }}
-                    disabled={isEnhancingDesc || !formData.description.trim()}
-                    className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-md border border-purple-500/20 bg-purple-500/10 px-4 py-2.5 text-sm font-medium text-purple-400 shadow-soft transition-all duration-200 hover:bg-purple-500/20 active:scale-[0.98] disabled:opacity-50"
-                  >
-                    <Wand2 size={12} className={isEnhancingDesc ? "animate-pulse" : ""} />
-                    {isEnhancingDesc ? 'Enhancing...' : 'Enhance with AI'}
-                  </button>
+                      }}
+                      disabled={isEnhancingDesc || !formData.description.trim()}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-purple-500/20 bg-purple-500/10 px-4 py-2 text-sm font-medium text-purple-400 shadow-soft transition-all duration-200 hover:bg-purple-500/20 active:scale-[0.98] disabled:opacity-50"
+                    >
+                      <Wand2 size={12} className={isEnhancingDesc ? "animate-pulse" : ""} />
+                      {isEnhancingDesc ? 'Enhancing...' : 'Enhance with AI'}
+                    </button>
+                  </div>
                 </div>
               </Field>
 
