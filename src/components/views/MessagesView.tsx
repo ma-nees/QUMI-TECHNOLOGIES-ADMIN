@@ -400,7 +400,7 @@ export function MessagesView() {
                         <button
                           onClick={handleEnhance}
                           disabled={isEnhancing || !replyText.trim()}
-                          className="inline-flex items-center gap-2 rounded-md border border-purple-500/20 bg-purple-500/10 px-4 py-2.5 text-sm font-medium text-purple-400 shadow-soft transition hover:bg-purple-500/20 disabled:opacity-50"
+                          className="inline-flex items-center gap-2 rounded-md border border-purple-500/20 bg-purple-500/10 px-4 py-2.5 text-sm font-medium text-purple-400 shadow-soft transition-all duration-200 hover:bg-purple-500/20 active:scale-[0.98] disabled:opacity-50"
                         >
                           <Wand2 size={16} className={isEnhancing ? "animate-pulse" : ""} />
                           {isEnhancing ? 'Enhancing...' : 'Enhance with AI'}
@@ -408,7 +408,7 @@ export function MessagesView() {
                         <button
                           onClick={handleSendReply}
                           disabled={isSending || !replyText.trim()}
-                          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition hover:bg-primary/90 disabled:opacity-50"
+                          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
                         >
                           {isSending ? <RefreshCw size={16} className="animate-spin" /> : <Mail size={16} />}
                           {isSending ? 'Sending...' : 'Send Reply'}
@@ -422,7 +422,7 @@ export function MessagesView() {
                           setReplyText('');
                           setIsComposing(true);
                         }}
-                        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition hover:bg-primary/90"
+                        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98]"
                       >
                         <Mail size={16} /> Reply here
                       </button>

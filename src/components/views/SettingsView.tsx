@@ -399,7 +399,7 @@ export function SettingsView() {
                 <button
                   type="submit"
                   disabled={!dirty || saving}
-                  className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-background shadow-soft transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving && <Loader2 size={15} className="animate-spin" />}
                   {saving ? 'Saving' : 'Save settings'}

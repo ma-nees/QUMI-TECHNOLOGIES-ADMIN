@@ -196,7 +196,7 @@ export function JobsView() {
         </div>
         <button
           onClick={openCreatePanel}
-          className="inline-flex items-center justify-center gap-2 self-start rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background shadow-soft transition hover:bg-primary/90 md:self-auto"
+          className="inline-flex items-center justify-center gap-2 self-start rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] md:self-auto"
         >
           <Plus size={16} />
           Post new job
@@ -354,7 +354,7 @@ export function JobsView() {
           />
           <form
             onSubmit={handleSave}
-            className="relative flex h-full w-full max-w-xl flex-col bg-surface shadow-medium"
+            className="relative flex h-full w-full max-w-xl flex-col bg-surface shadow-medium animate-slide-in-right"
           >
             <div className="flex items-start justify-between border-b border-border p-6">
               <div>
@@ -473,7 +473,7 @@ export function JobsView() {
                       }
                     }}
                     disabled={isEnhancingDesc || !formData.description.trim()}
-                    className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-md border border-purple-500/20 bg-purple-500/10 px-4 py-2.5 text-sm font-medium text-purple-400 shadow-soft transition hover:bg-purple-500/20 disabled:opacity-50"
+                    className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-md border border-purple-500/20 bg-purple-500/10 px-4 py-2.5 text-sm font-medium text-purple-400 shadow-soft transition-all duration-200 hover:bg-purple-500/20 active:scale-[0.98] disabled:opacity-50"
                   >
                     <Wand2 size={12} className={isEnhancingDesc ? "animate-pulse" : ""} />
                     {isEnhancingDesc ? 'Enhancing...' : 'Enhance with AI'}
@@ -509,7 +509,7 @@ export function JobsView() {
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background shadow-soft transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {saving && <Loader2 size={15} className="animate-spin" />}
                 {saving ? 'Saving' : formData.id ? 'Save changes' : 'Publish job'}
