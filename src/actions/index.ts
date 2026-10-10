@@ -16,6 +16,16 @@ export async function fetchContactMessages() {
   return data;
 }
 
+export async function deleteContactMessage(id: string | number) {
+  const { error } = await getSupabase()
+    .from('contact_submissions')
+    .delete()
+    .eq('id', id);
+    
+  if (error) throw new Error(error.message);
+  return { success: true };
+}
+
 export async function fetchJobs() {
   const { data, error } = await getSupabase()
     .from('jobs')

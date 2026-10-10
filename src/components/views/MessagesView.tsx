@@ -1,6 +1,6 @@
 'use client';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { fetchContactMessages } from '@/actions';
+import { fetchContactMessages, deleteContactMessage } from '@/actions';
 import { sendReplyEmail } from '@/actions/email';
 import { enhanceTextWithAI } from '@/actions/ai';
 import {
@@ -14,6 +14,7 @@ import {
   RefreshCw,
   Search,
   Tag,
+  Trash2,
   Wand2,
 } from 'lucide-react';
 
@@ -87,7 +88,24 @@ export function MessagesView() {
   const [replyText, setReplyText] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [actionStatus, setActionStatus] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
+
+  const handleDelete = async () => {
+    if (!selected) return;
+    if (!confirm('Are you sure you want to delete this message? This action cannot be undone.')) return;
+    setIsDeleting(true);
+    try {
+      await deleteContactMessage(selected.id);
+      setMessages(prev => prev.filter(m => m.id !== selected.id));
+      setSelectedId(null);
+      setShowDetail(false);
+    } catch (err: any) {
+      alert("Failed to delete message: " + err.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const load = useCallback(() => {
     setLoading(true);
@@ -438,6 +456,14 @@ export function MessagesView() {
                       >
                         {copied ? <Check size={16} className="text-green-600" /> : <Copy size={16} />}
                         {copied ? 'Copied' : 'Copy email'}
+                      </button>
+                      <button
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                        className="ml-auto inline-flex items-center gap-2 rounded-md border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-400 shadow-soft transition-all duration-200 hover:bg-red-500/20 active:scale-[0.98] disabled:opacity-50"
+                      >
+                        {isDeleting ? <RefreshCw size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                        {isDeleting ? 'Deleting...' : 'Delete'}
                       </button>
                     </div>
                   )}
