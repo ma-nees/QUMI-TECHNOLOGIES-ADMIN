@@ -571,6 +571,7 @@ export function JobsView() {
             </div>
             <div className="flex items-center justify-end gap-3 bg-surface-alt/50 px-6 py-4 border-t border-border">
               <button
+                type="button"
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={isDeleting}
                 className="rounded-md px-4 py-2 text-sm font-medium text-muted transition hover:text-primary disabled:opacity-50"
@@ -578,6 +579,7 @@ export function JobsView() {
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={confirmDelete}
                 disabled={isDeleting}
                 className="inline-flex items-center gap-2 rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600 disabled:opacity-50 shadow-soft"
