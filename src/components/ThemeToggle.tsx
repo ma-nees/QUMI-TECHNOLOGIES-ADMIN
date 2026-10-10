@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { flushSync } from 'react-dom';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -30,7 +31,9 @@ export function ThemeToggle() {
     );
 
     const transition = document.startViewTransition(() => {
-      setTheme(newTheme);
+      flushSync(() => {
+        setTheme(newTheme);
+      });
     });
 
     transition.ready.then(() => {
@@ -44,8 +47,8 @@ export function ThemeToggle() {
           clipPath,
         },
         {
-          duration: 500,
-          easing: 'ease-out',
+          duration: 800,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
           pseudoElement: '::view-transition-new(root)',
         }
       );
