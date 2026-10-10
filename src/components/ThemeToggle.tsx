@@ -3,7 +3,6 @@
 import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { flushSync } from 'react-dom';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -17,7 +16,6 @@ export function ThemeToggle() {
     const isDark = theme === 'dark';
     const newTheme = isDark ? 'light' : 'dark';
 
-    // Fallback if browser doesn't support View Transitions
     if (!document.startViewTransition) {
       setTheme(newTheme);
       return;
@@ -31,9 +29,7 @@ export function ThemeToggle() {
     );
 
     const transition = document.startViewTransition(() => {
-      flushSync(() => {
-        setTheme(newTheme);
-      });
+      setTheme(newTheme);
     });
 
     transition.ready.then(() => {
@@ -47,8 +43,8 @@ export function ThemeToggle() {
           clipPath,
         },
         {
-          duration: 800,
-          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          duration: 400,
+          easing: 'ease-out',
           pseudoElement: '::view-transition-new(root)',
         }
       );

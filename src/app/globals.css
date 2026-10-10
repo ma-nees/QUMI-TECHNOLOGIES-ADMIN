@@ -211,8 +211,8 @@
 
 /* View Transitions for Theme Toggle */
 ::view-transition-group(root) {
-  animation-duration: 0.8s;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-duration: 0.4s;
+  animation-timing-function: ease-out;
 }
 ::view-transition-new(root),
 ::view-transition-old(root) {
