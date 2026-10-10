@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { PWA } from "@/components/PWA";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "QUMI Admin Dashboard",
   description: "Admin panel for QUMI Tech",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -16,6 +18,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <PWA />
           {children}
         </ThemeProvider>
       </body>
