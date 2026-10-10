@@ -373,7 +373,7 @@ export function JobsView() {
           />
           <form
             onSubmit={handleSave}
-            className="relative flex h-full w-full flex-col bg-background shadow-medium animate-slide-in-right"
+            className="relative flex h-[100dvh] w-full md:w-[600px] lg:w-[700px] xl:w-[800px] max-w-[100vw] flex-col bg-background shadow-medium animate-slide-in-right"
           >
             <div className="flex items-start justify-between border-b border-border bg-surface/30 p-6">
               <div>
