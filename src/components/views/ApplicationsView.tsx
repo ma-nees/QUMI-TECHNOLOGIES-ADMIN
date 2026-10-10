@@ -1,6 +1,6 @@
 'use client';
 import React, { useCallback, useEffect, useState } from 'react';
-import { fetchApplications, getResumeUrl } from '@/actions';
+import { fetchApplications, getResumeUrl, deleteApplication } from '@/actions';
 import {
   AlertCircle,
   ArrowLeft,
@@ -11,7 +11,8 @@ import {
   Phone,
   RefreshCw,
   Search,
-  Tag
+  Tag,
+  Trash2
 } from 'lucide-react';
 
 type Application = {
@@ -78,6 +79,24 @@ export function ApplicationsView() {
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState<Application['id'] | null>(null);
   const [showDetail, setShowDetail] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const confirmDelete = async () => {
+    if (!selectedId) return;
+    setIsDeleting(true);
+    try {
+      await deleteApplication(selectedId);
+      setApplications(prev => prev.filter(a => a.id !== selectedId));
+      setSelectedId(null);
+      setShowDetail(false);
+      setShowDeleteConfirm(false);
+    } catch (err: any) {
+      alert("Failed to delete application: " + err.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const load = useCallback(() => {
     setLoading(true);
@@ -207,17 +226,27 @@ export function ApplicationsView() {
                 <ArrowLeft size={16} /> Back to list
               </button>
 
-              <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-background">
-                  {initials(selected.name)}
+              <div className="flex justify-between items-start gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-background">
+                    {initials(selected.name)}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="truncate text-xl font-serif font-bold text-primary">{selected.name}</h3>
+                    <p className="truncate text-sm text-muted">
+                      <a href={`mailto:${selected.email}`} className="hover:underline hover:text-primary transition">{selected.email}</a>
+                    </p>
+                    <p className="mt-1 text-xs text-muted">{fullDate(selected.created_at)}</p>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <h3 className="truncate text-xl font-serif font-bold text-primary">{selected.name}</h3>
-                  <p className="truncate text-sm text-muted">
-                    <a href={`mailto:${selected.email}`} className="hover:underline hover:text-primary transition">{selected.email}</a>
-                  </p>
-                  <p className="mt-1 text-xs text-muted">{fullDate(selected.created_at)}</p>
-                </div>
+                
+                <button
+                  onClick={() => setShowDeleteConfirm(true)}
+                  className="shrink-0 rounded-md p-2 text-muted hover:bg-red-500/10 hover:text-red-500 transition-colors"
+                  title="Delete Application"
+                >
+                  <Trash2 size={20} />
+                </button>
               </div>
 
               <div className="mt-5 flex flex-wrap gap-2">
@@ -278,6 +307,41 @@ export function ApplicationsView() {
           </div>
         )}
       </div>
+      
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in-up" style={{ animationDuration: '0.2s' }}>
+          <div className="w-full max-w-md overflow-hidden rounded-xl bg-surface shadow-2xl border border-border animate-pop-in" style={{ animationDuration: '0.3s' }}>
+            <div className="p-6">
+              <div className="flex items-center gap-3 text-red-500 mb-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/10">
+                  <AlertCircle size={20} />
+                </div>
+                <h3 className="text-lg font-semibold text-primary">Delete Application</h3>
+              </div>
+              <p className="text-[15px] leading-relaxed text-body">
+                Are you sure you want to delete this job application from <span className="font-semibold text-primary">{selected?.name}</span>? This action cannot be undone.
+              </p>
+            </div>
+            <div className="flex items-center justify-end gap-3 bg-surface-alt/50 px-6 py-4 border-t border-border">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={isDeleting}
+                className="rounded-md px-4 py-2 text-sm font-medium text-muted transition hover:text-primary disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={isDeleting}
+                className="inline-flex items-center gap-2 rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600 disabled:opacity-50 shadow-soft"
+              >
+                {isDeleting ? <RefreshCw size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                {isDeleting ? 'Deleting...' : 'Delete Application'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </div>
   );

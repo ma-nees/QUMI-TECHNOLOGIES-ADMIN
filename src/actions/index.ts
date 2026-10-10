@@ -88,9 +88,29 @@ export async function fetchApplications() {
   return data;
 }
 
+export async function deleteJob(id: string | number) {
+  const { error } = await getSupabase()
+    .from('jobs')
+    .delete()
+    .eq('id', id);
+    
+  if (error) throw new Error(error.message);
+  return { success: true };
+}
+
 export function getResumeUrl(path: string) {
   if (!path) return null;
   const { data } = getSupabase().storage.from('resumes').getPublicUrl(path);
   return data.publicUrl;
+}
+
+export async function deleteApplication(id: string | number) {
+  const { error } = await getSupabase()
+    .from('job_applications')
+    .delete()
+    .eq('id', id);
+    
+  if (error) throw new Error(error.message);
+  return { success: true };
 }
 

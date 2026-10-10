@@ -13,8 +13,9 @@ import {
   Search,
   X,
   Wand2,
+  Trash2,
 } from 'lucide-react';
-import { fetchJobs as fetchJobsAction, createJob, updateJob } from '@/actions';
+import { fetchJobs as fetchJobsAction, createJob, updateJob, deleteJob } from '@/actions';
 import { enhanceTextWithAI } from '@/actions/ai';
 import ReactMarkdown from 'react-markdown';
 
@@ -104,6 +105,24 @@ export function JobsView() {
   const [formError, setFormError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormJob>(EMPTY_JOB);
   const [isEnhancingDesc, setIsEnhancingDesc] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const confirmDelete = async () => {
+    if (!formData.id) return;
+    setIsDeleting(true);
+    try {
+      await deleteJob(formData.id);
+      setIsModalOpen(false);
+      setShowDeleteConfirm(false);
+      setFormData(EMPTY_JOB);
+      await loadJobs();
+    } catch (err: any) {
+      setFormError("Failed to delete job: " + err.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const loadJobs = useCallback(async () => {
     setLoading(true);
@@ -497,25 +516,75 @@ export function JobsView() {
               </label>
             </div>
 
-            <div className="flex items-center justify-end gap-3 border-t border-border bg-surface-alt/50 p-4 px-6">
+            <div className="flex items-center justify-between gap-3 border-t border-border bg-surface-alt/50 p-4 px-6">
+              {formData.id ? (
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteConfirm(true)}
+                  disabled={saving || isDeleting}
+                  className="inline-flex items-center gap-2 rounded-md border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-400 shadow-soft transition-all duration-200 hover:bg-red-500/20 active:scale-[0.98] disabled:opacity-50"
+                >
+                  <Trash2 size={16} />
+                  Delete
+                </button>
+              ) : (
+                <div />
+              )}
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  disabled={saving || isDeleting}
+                  className="rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium text-primary transition hover:border-primary/40"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving || isDeleting}
+                  className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {saving && <Loader2 size={15} className="animate-spin" />}
+                  {saving ? 'Saving' : formData.id ? 'Save changes' : 'Publish job'}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in-up" style={{ animationDuration: '0.2s' }}>
+          <div className="w-full max-w-md overflow-hidden rounded-xl bg-surface shadow-2xl border border-border animate-pop-in" style={{ animationDuration: '0.3s' }}>
+            <div className="p-6">
+              <div className="flex items-center gap-3 text-red-500 mb-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/10">
+                  <AlertCircle size={20} />
+                </div>
+                <h3 className="text-lg font-semibold text-primary">Delete Job</h3>
+              </div>
+              <p className="text-[15px] leading-relaxed text-body">
+                Are you sure you want to delete <span className="font-semibold text-primary">{formData.title}</span>? This action cannot be undone.
+              </p>
+            </div>
+            <div className="flex items-center justify-end gap-3 bg-surface-alt/50 px-6 py-4 border-t border-border">
               <button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                disabled={saving}
-                className="rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium text-primary transition hover:border-primary/40"
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={isDeleting}
+                className="rounded-md px-4 py-2 text-sm font-medium text-muted transition hover:text-primary disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
-                type="submit"
-                disabled={saving}
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                onClick={confirmDelete}
+                disabled={isDeleting}
+                className="inline-flex items-center gap-2 rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600 disabled:opacity-50 shadow-soft"
               >
-                {saving && <Loader2 size={15} className="animate-spin" />}
-                {saving ? 'Saving' : formData.id ? 'Save changes' : 'Publish job'}
+                {isDeleting ? <RefreshCw size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                {isDeleting ? 'Deleting...' : 'Delete Job'}
               </button>
             </div>
-          </form>
+          </div>
         </div>
       )}
     </div>
