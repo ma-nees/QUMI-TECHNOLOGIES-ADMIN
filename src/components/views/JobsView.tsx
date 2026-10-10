@@ -291,40 +291,51 @@ export function JobsView() {
               <article
                 key={job.id}
                 onClick={() => openEditPanel(job)}
-                className="group flex cursor-pointer overflow-hidden rounded-lg border border-border bg-surface shadow-soft transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-medium"
+                className="group relative flex cursor-pointer overflow-hidden rounded-xl border border-border bg-surface shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5"
               >
-                <div className={`w-1.5 shrink-0 ${job.is_open ? 'bg-primary' : 'bg-border'}`} />
-                <div className="flex flex-1 flex-col p-4 sm:p-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h3 className="font-serif text-base sm:text-lg font-bold leading-snug text-primary transition-colors group-hover:text-primary/80">{job.title}</h3>
-                      <ul className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted sm:text-sm">
-                        <li className="flex items-center gap-1">
-                          <Building2 size={13} className="shrink-0" /> {job.department}
+                {/* Subtle gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-primary/[0.03] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                
+                <div className="relative flex flex-1 flex-col p-4 sm:p-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        {/* Glowing status dot */}
+                        <div className="relative flex h-2 w-2 items-center justify-center">
+                          {job.is_open && <span className="absolute h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>}
+                          <span className={`relative h-2 w-2 rounded-full ${job.is_open ? 'bg-green-500' : 'bg-muted'}`}></span>
+                        </div>
+                        <h3 className="font-serif text-base font-bold tracking-tight text-primary transition-colors group-hover:text-primary/90 sm:text-lg">
+                          {job.title}
+                        </h3>
+                      </div>
+                      
+                      {/* Sleek Metadata Pills */}
+                      <ul className="mt-3 flex flex-wrap items-center gap-2">
+                        <li className="flex items-center gap-1.5 rounded-full bg-surface-alt/50 px-2.5 py-1 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt sm:text-xs">
+                          <Building2 size={12} className="text-primary/60" /> {job.department}
                         </li>
-                        <li className="flex items-center gap-1">
-                          <MapPin size={13} className="shrink-0" /> {job.location}
+                        <li className="flex items-center gap-1.5 rounded-full bg-surface-alt/50 px-2.5 py-1 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt sm:text-xs">
+                          <MapPin size={12} className="text-primary/60" /> {job.location}
                         </li>
                         {job.employment_type && (
-                          <li className="flex items-center gap-1">
-                            <Clock size={13} className="shrink-0" /> {job.employment_type}
+                          <li className="flex items-center gap-1.5 rounded-full bg-surface-alt/50 px-2.5 py-1 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt sm:text-xs">
+                            <Clock size={12} className="text-primary/60" /> {job.employment_type}
                           </li>
                         )}
                       </ul>
                     </div>
-                    <span
-                      className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider sm:px-2.5 sm:py-1 ${
-                        job.is_open ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                      }`}
-                    >
-                      {job.is_open ? 'Open' : 'Closed'}
-                    </span>
+                    
+                    {/* Floating Action Button style arrow */}
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-alt text-muted transition-all duration-300 group-hover:bg-primary group-hover:text-white">
+                      <ChevronDown size={16} className="-rotate-90" />
+                    </div>
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-3">
-                    <span className="text-[11px] text-muted sm:text-xs">{posted ?? ''}</span>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary group-hover:underline sm:text-xs">
-                      Edit details
+                  <div className="mt-4 flex items-center justify-between border-t border-border/40 pt-3 opacity-70 transition-opacity group-hover:opacity-100">
+                    <span className="text-[10px] uppercase tracking-wider text-muted sm:text-[11px]">{posted ?? ''}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-primary sm:text-[11px]">
+                      {job.is_open ? 'Accepting applications' : 'Closed'}
                     </span>
                   </div>
                 </div>
