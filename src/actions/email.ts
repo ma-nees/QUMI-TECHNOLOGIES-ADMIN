@@ -34,20 +34,21 @@ function getEnv(key: string): string {
 
 export async function sendReplyEmail(to: string, subject: string, message: string) {
   try {
-    const user = getEnv("SMTP_USER");
-    const pass = getEnv("SMTP_PASSWORD") || getEnv("SMTP_PASS");
+    const user = process.env.SMTP_USER || getEnv("SMTP_USER");
+    const pass = process.env.SMTP_PASSWORD || process.env.SMTP_PASS || getEnv("SMTP_PASSWORD") || getEnv("SMTP_PASS");
 
     if (!user || !pass) {
       return {
         success: false,
-        error: "SMTP credentials not configured. Please set SMTP_USER and SMTP_PASSWORD in .env.local or environment settings.",
+        error: "SMTP credentials not configured. Please set SMTP_USER and SMTP_PASSWORD in your deployment environment variables.",
       };
     }
 
-    const port = Number(getEnv("SMTP_PORT") || 465);
+    const host = process.env.SMTP_HOST || getEnv("SMTP_HOST") || "smtp.gmail.com";
+    const port = Number(process.env.SMTP_PORT || getEnv("SMTP_PORT") || 465);
     const transporter = nodemailer.createTransport({
-      host: getEnv("SMTP_HOST") || "smtp.gmail.com",
-      port: port,
+      host,
+      port,
       secure: port === 465,
       auth: {
         user,
@@ -55,8 +56,8 @@ export async function sendReplyEmail(to: string, subject: string, message: strin
       },
     });
 
-    const companyName = getEnv("COMPANY_NAME") || 'QUMI Technologies';
-    const smtpUser = getEnv("SMTP_USER");
+    const companyName = process.env.COMPANY_NAME || getEnv("COMPANY_NAME") || 'QUMI Technologies';
+    const smtpUser = user;
 
     const html = `
       <div style="font-family: sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
