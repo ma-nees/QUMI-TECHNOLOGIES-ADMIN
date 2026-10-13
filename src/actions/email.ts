@@ -34,14 +34,24 @@ function getEnv(key: string): string {
 
 export async function sendReplyEmail(to: string, subject: string, message: string) {
   try {
+    const user = getEnv("SMTP_USER");
+    const pass = getEnv("SMTP_PASSWORD") || getEnv("SMTP_PASS");
+
+    if (!user || !pass) {
+      return {
+        success: false,
+        error: "SMTP credentials not configured. Please set SMTP_USER and SMTP_PASSWORD in .env.local or environment settings.",
+      };
+    }
+
     const port = Number(getEnv("SMTP_PORT") || 465);
     const transporter = nodemailer.createTransport({
       host: getEnv("SMTP_HOST") || "smtp.gmail.com",
       port: port,
       secure: port === 465,
       auth: {
-        user: getEnv("SMTP_USER"),
-        pass: getEnv("SMTP_PASSWORD") || getEnv("SMTP_PASS"),
+        user,
+        pass,
       },
     });
 

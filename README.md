@@ -32,6 +32,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # Mistral AI (For Text Enhancement)
 MISTRAL_API_KEY=your_mistral_api_key
+
+# SMTP Configuration (For Email Replies)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASSWORD=your_gmail_app_password
+COMPANY_NAME=QUMI Technologies
 ```
 
 ### Installation
