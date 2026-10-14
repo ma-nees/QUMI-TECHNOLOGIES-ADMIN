@@ -1,6 +1,6 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import { Settings, Mail, Briefcase, LogOut, Loader2, Inbox } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { supabase } from '@/lib/supabase';
 
 export const menuItems = [
@@ -27,6 +27,12 @@ function initialsFromEmail(email: string | null) {
 export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
   const [email, setEmail] = useState<string | null>(null);
   const [signingOut, setSigningOut] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -53,6 +59,8 @@ export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
     }
   };
 
+  const isDark = mounted ? resolvedTheme === 'dark' : true;
+
   return (
     <aside className="flex h-full w-64 flex-col border-r border-border bg-surface transition-all">
       {/* Brand */}
@@ -60,7 +68,10 @@ export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
         <img
           src="/logo.png"
           alt="QUMI Technologies"
-          className="h-10 w-auto max-h-11 object-contain logo-themed"
+          className="h-10 w-auto max-h-11 object-contain transition-all duration-200"
+          style={{
+            filter: isDark ? 'brightness(0) invert(1)' : 'brightness(0)',
+          }}
         />
         <div className="leading-tight">
           <div className="font-serif text-lg font-bold tracking-wide text-primary">QUMI</div>

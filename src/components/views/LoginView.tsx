@@ -1,7 +1,8 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { AlertCircle, Eye, EyeOff, Loader2, Lock, Mail, ShieldCheck } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 const HIGHLIGHTS = [
   {
@@ -28,6 +29,14 @@ function friendlyError(message: string): string {
 
 export function LoginView({ initialError }: { initialError?: string | null }) {
   const [email, setEmail] = useState('');
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted ? resolvedTheme === 'dark' : true;
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -116,7 +125,10 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             <img
               src="/logo.png"
               alt="QUMI Technologies"
-              className="h-10 w-auto max-h-11 object-contain logo-themed"
+              className="h-10 w-auto max-h-11 object-contain transition-all duration-200"
+              style={{
+                filter: isDark ? 'brightness(0) invert(1)' : 'brightness(0)',
+              }}
             />
             <div>
               <div className="font-serif text-lg font-bold text-primary leading-none">QUMI</div>
