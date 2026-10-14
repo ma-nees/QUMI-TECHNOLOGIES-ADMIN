@@ -1,6 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+.dark .logo-themed {
+  filter: brightness(0) invert(1) !important;
+}
+
+.logo-themed {
+  filter: none;
+  transition: filter 0.2s ease;
+}
+
 /*
   Design tokens.
   Registering these in @theme makes Tailwind generate every utility for them,

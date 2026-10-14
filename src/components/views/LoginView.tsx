@@ -116,7 +116,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             <img
               src="/logo.png"
               alt="QUMI Technologies"
-              className="h-10 w-auto max-h-11 object-contain dark:invert transition-all duration-200"
+              className="h-10 w-auto max-h-11 object-contain logo-themed"
             />
             <div>
               <div className="font-serif text-lg font-bold text-primary leading-none">QUMI</div>
