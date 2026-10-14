@@ -60,7 +60,7 @@ export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
         <img
           src="/logo.png"
           alt="QUMI Technologies"
-          className="h-10 w-auto max-h-11 object-contain"
+          className="h-10 w-auto max-h-11 object-contain dark:invert transition-all duration-200"
         />
         <div className="leading-tight">
           <div className="font-serif text-lg font-bold tracking-wide text-primary">QUMI</div>

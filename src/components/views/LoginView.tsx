@@ -74,7 +74,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             <img
               src="/logo.png"
               alt="QUMI Technologies"
-              className="h-11 w-auto max-h-12 object-contain"
+              className="h-11 w-auto max-h-12 object-contain brightness-0 invert"
             />
             <div>
               <div className="font-serif text-xl font-bold tracking-wide">QUMI</div>
@@ -116,7 +116,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             <img
               src="/logo.png"
               alt="QUMI Technologies"
-              className="h-10 w-auto max-h-11 object-contain"
+              className="h-10 w-auto max-h-11 object-contain dark:invert transition-all duration-200"
             />
             <div>
               <div className="font-serif text-lg font-bold text-primary leading-none">QUMI</div>
