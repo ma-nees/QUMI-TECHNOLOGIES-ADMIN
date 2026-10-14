@@ -71,9 +71,11 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
 
         <div className="relative">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md border border-white/25 bg-white/10 font-serif text-lg font-bold">
-              Q
-            </div>
+            <img
+              src="/logo.png"
+              alt="QUMI Technologies"
+              className="h-11 w-auto max-h-12 object-contain"
+            />
             <div>
               <div className="font-serif text-xl font-bold tracking-wide">QUMI</div>
               <div className="text-xs uppercase tracking-[0.2em] text-background/70">Institute Administration</div>
@@ -111,9 +113,11 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
       <main className="flex items-center justify-center px-5 py-12 sm:px-10">
         <div className="w-full max-w-md">
           <div className="lg:hidden mb-8 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary text-background font-serif text-lg font-bold">
-              Q
-            </div>
+            <img
+              src="/logo.png"
+              alt="QUMI Technologies"
+              className="h-10 w-auto max-h-11 object-contain"
+            />
             <div>
               <div className="font-serif text-lg font-bold text-primary leading-none">QUMI</div>
               <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted">Institute Administration</div>

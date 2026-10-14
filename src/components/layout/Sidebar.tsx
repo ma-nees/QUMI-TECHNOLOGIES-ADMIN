@@ -56,10 +56,12 @@ export function Sidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
   return (
     <aside className="flex h-full w-64 flex-col border-r border-border bg-surface transition-all">
       {/* Brand */}
-      <div className="flex items-center gap-3 border-b border-border px-6 py-6">
-        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary shadow-soft">
-          <span className="font-serif text-base font-bold text-accent">Q</span>
-        </div>
+      <div className="flex items-center gap-3 border-b border-border px-5 py-5">
+        <img
+          src="/logo.png"
+          alt="QUMI Technologies"
+          className="h-10 w-auto max-h-11 object-contain"
+        />
         <div className="leading-tight">
           <div className="font-serif text-lg font-bold tracking-wide text-primary">QUMI</div>
           <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">Administration</div>

@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   title: "QUMI Admin Dashboard",
   description: "Admin panel for QUMI Tech",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/logo.jpeg",
+    shortcut: "/logo.jpeg",
+    apple: "/logo.jpeg",
+  },
 };
 
 export default function RootLayout({
