@@ -283,47 +283,47 @@ export function CaseStudiesView() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in-up">
+    <div className="space-y-4 animate-fade-in-up">
       {/* Top Header & Actions */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted">Portfolio Management</span>
-            <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
               {caseStudies.length} Total
             </span>
           </div>
-          <h2 className="mt-1 font-serif text-2xl font-bold text-primary">Project Case Studies</h2>
-          <p className="mt-1 text-sm text-muted">
+          <h2 className="mt-0.5 font-serif text-xl sm:text-2xl font-bold text-primary">Project Case Studies</h2>
+          <p className="mt-0.5 text-xs sm:text-sm text-muted">
             Create, manage, and publish client project case studies to the live QUMI website.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={loadData}
             disabled={loading}
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-3 py-2 text-sm font-medium text-muted hover:text-primary transition-colors disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-2.5 py-1.5 text-xs sm:text-sm font-medium text-muted hover:text-primary transition-colors disabled:opacity-50"
             title="Refresh case studies"
           >
-            <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
+            <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />
             <span className="hidden sm:inline">Refresh</span>
           </button>
 
           <button
             onClick={openCreate}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-background shadow-soft hover:bg-primary/90 transition-all hover:shadow-medium"
+            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-background shadow-soft hover:bg-primary/90 transition-all hover:shadow-medium"
           >
-            <Plus size={18} strokeWidth={2.5} />
+            <Plus size={16} strokeWidth={2.5} />
             <span>Post New Case Study</span>
           </button>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-4 shadow-soft md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-2.5 rounded-lg border border-border bg-surface p-3 shadow-soft md:flex-row md:items-center md:justify-between">
         <div className="relative flex-1">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
           <input
             type="search"
             value={query}
@@ -412,7 +412,7 @@ export function CaseStudiesView() {
           </button>
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map(cs => (
             <article
               key={cs.id}
@@ -435,7 +435,7 @@ export function CaseStudiesView() {
                   )}
 
                   {/* Badges Overlay */}
-                  <div className="absolute left-3 top-3 flex items-center gap-2">
+                  <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5">
                     <span className="rounded-md bg-background/90 px-2 py-0.5 font-mono text-[11px] font-semibold text-primary backdrop-blur-sm">
                       {cs.industry}
                     </span>
@@ -452,19 +452,19 @@ export function CaseStudiesView() {
                   </div>
 
                   {cs.client && (
-                    <span className="absolute bottom-3 left-3 rounded bg-black/60 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
+                    <span className="absolute bottom-2.5 left-2.5 rounded bg-black/60 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
                       Client: {cs.client}
                     </span>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
-                  <h3 className="font-serif text-lg font-bold leading-snug text-primary group-hover:text-primary transition-colors">
+                <div className="p-3.5 sm:p-4">
+                  <h3 className="font-serif text-base sm:text-lg font-bold leading-snug text-primary group-hover:text-primary transition-colors">
                     {cs.title}
                   </h3>
 
-                  <div className="mt-3 space-y-2 text-xs leading-relaxed text-body">
+                  <div className="mt-2 space-y-1.5 text-xs leading-relaxed text-body">
                     <div>
                       <strong className="text-primary font-semibold">Challenge: </strong>
                       <span className="text-muted line-clamp-2">{cs.problem}</span>
@@ -476,14 +476,14 @@ export function CaseStudiesView() {
                   </div>
 
                   {cs.result && (
-                    <div className="mt-3 rounded-md border border-primary/20 bg-primary/5 p-2.5 text-xs text-primary">
+                    <div className="mt-2 rounded-md border border-primary/20 bg-primary/5 p-2 text-xs text-primary">
                       <div className="font-semibold text-[10px] uppercase tracking-wider mb-0.5">Key Outcome</div>
                       <p className="line-clamp-2 leading-relaxed">{cs.result}</p>
                     </div>
                   )}
 
                   {/* Tech stack tags */}
-                  <div className="mt-4 flex flex-wrap gap-1.5">
+                  <div className="mt-2.5 flex flex-wrap gap-1.5">
                     {cs.technology
                       .split(',')
                       .map(t => t.trim())
@@ -492,7 +492,7 @@ export function CaseStudiesView() {
                       .map(tech => (
                         <span
                           key={tech}
-                          className="rounded border border-border bg-background px-2 py-0.5 font-mono text-[10px] text-muted"
+                          className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted"
                         >
                           {tech}
                         </span>
@@ -507,8 +507,8 @@ export function CaseStudiesView() {
               </div>
 
               {/* Bottom Actions */}
-              <div className="flex items-center justify-between border-t border-border bg-surface-alt/40 px-5 py-3 text-xs">
-                <span className="text-muted font-mono">
+              <div className="flex items-center justify-between border-t border-border bg-surface-alt/40 px-3.5 py-2 text-xs">
+                <span className="text-muted font-mono text-[11px]">
                   {cs.created_at ? new Date(cs.created_at).toLocaleDateString() : 'Active'}
                 </span>
 
@@ -543,9 +543,9 @@ export function CaseStudiesView() {
         >
           <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-2xl animate-fade-in-up">
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-border bg-surface-alt/50 px-6 py-4">
+            <div className="flex items-center justify-between border-b border-border bg-surface-alt/50 px-4 py-3">
               <div>
-                <h3 className="font-serif text-lg font-bold text-primary">
+                <h3 className="font-serif text-base sm:text-lg font-bold text-primary">
                   {editingId ? 'Edit Project Case Study' : 'Post New Project Case Study'}
                 </h3>
                 <p className="text-xs text-muted">
@@ -556,12 +556,12 @@ export function CaseStudiesView() {
                 onClick={() => !saving && setIsModalOpen(false)}
                 className="rounded-md p-1.5 text-muted hover:bg-surface hover:text-primary transition"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             {/* Modal Form Body */}
-            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-5">
+            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
               {formError && (
                 <div className="flex items-center gap-2 rounded-md border border-red-500/20 bg-red-500/10 p-3 text-xs text-red-500">
                   <AlertCircle size={16} />
@@ -773,21 +773,21 @@ export function CaseStudiesView() {
               </div>
 
               {/* Submit Buttons */}
-              <div className="flex items-center justify-end gap-3 border-t border-border pt-4">
+              <div className="flex items-center justify-end gap-2.5 border-t border-border pt-3">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   disabled={saving}
-                  className="rounded-md border border-border px-4 py-2 text-sm font-medium text-muted hover:bg-surface-alt transition"
+                  className="rounded-md border border-border px-3.5 py-1.5 text-xs sm:text-sm font-medium text-muted hover:bg-surface-alt transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2 text-sm font-semibold text-background shadow-soft hover:bg-primary/90 transition disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs sm:text-sm font-semibold text-background shadow-soft hover:bg-primary/90 transition disabled:opacity-50"
                 >
-                  {saving && <Loader2 size={16} className="animate-spin" />}
+                  {saving && <Loader2 size={15} className="animate-spin" />}
                   <span>{editingId ? 'Save Changes' : 'Post Case Study'}</span>
                 </button>
               </div>
@@ -799,28 +799,28 @@ export function CaseStudiesView() {
       {/* DELETE CONFIRMATION MODAL */}
       {deleteId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-fade-in-up">
-          <div className="w-full max-w-md rounded-xl border border-border bg-surface p-6 shadow-2xl space-y-4">
-            <div className="flex items-center gap-3 text-red-500">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/10">
-                <AlertCircle size={20} />
+          <div className="w-full max-w-md rounded-xl border border-border bg-surface p-4 sm:p-5 shadow-2xl space-y-3">
+            <div className="flex items-center gap-2.5 text-red-500">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-500/10">
+                <AlertCircle size={18} />
               </div>
-              <h3 className="text-lg font-serif font-bold text-primary">Delete Case Study?</h3>
+              <h3 className="text-base sm:text-lg font-serif font-bold text-primary">Delete Case Study?</h3>
             </div>
-            <p className="text-sm text-muted">
+            <p className="text-xs sm:text-sm text-muted">
               Are you sure you want to permanently remove this project case study? It will be immediately removed from the live website showcase.
             </p>
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex justify-end gap-2.5 pt-1.5">
               <button
                 onClick={() => setDeleteId(null)}
                 disabled={isDeleting}
-                className="rounded-md border border-border px-4 py-2 text-xs font-semibold text-muted hover:bg-surface-alt transition"
+                className="rounded-md border border-border px-3.5 py-1.5 text-xs font-semibold text-muted hover:bg-surface-alt transition"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
                 disabled={isDeleting}
-                className="rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 transition disabled:opacity-50"
+                className="rounded-md bg-red-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-red-700 transition disabled:opacity-50"
               >
                 {isDeleting ? 'Deleting...' : 'Yes, Delete'}
               </button>

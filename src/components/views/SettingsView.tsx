@@ -78,11 +78,11 @@ function validate(s: SettingsState) {
 function Section({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
   return (
     <section className="overflow-hidden rounded-lg border border-border bg-surface shadow-soft">
-      <div className="border-b border-border bg-surface-alt/50 px-6 py-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-primary">{title}</h3>
-        <p className="mt-1 text-sm text-muted">{description}</p>
+      <div className="border-b border-border bg-surface-alt/50 px-4 sm:px-5 py-3">
+        <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-primary">{title}</h3>
+        <p className="mt-0.5 text-xs text-muted">{description}</p>
       </div>
-      <div className="p-6">{children}</div>
+      <div className="p-4 sm:p-5">{children}</div>
     </section>
   );
 }
@@ -203,8 +203,8 @@ export function SettingsView() {
       {loading ? (
         <Skeleton />
       ) : (
-        <form onSubmit={handleSave} noValidate className="grid items-start gap-8 lg:grid-cols-[1fr_320px]">
-          <div className="space-y-6">
+        <form onSubmit={handleSave} noValidate className="grid items-start gap-5 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-4">
             <Section title="Contact details" description="How visitors can find and reach your organisation.">
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>

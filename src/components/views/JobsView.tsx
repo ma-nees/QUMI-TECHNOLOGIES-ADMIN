@@ -302,7 +302,7 @@ export function JobsView() {
           )}
         </div>
       ) : (
-        <div className="grid items-start gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
           {visible.map(job => {
             const isOpen = expanded === job.id;
             const posted = postedLabel(job.created_at);
@@ -315,7 +315,7 @@ export function JobsView() {
                 {/* Subtle gradient overlay on hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-primary/[0.03] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 
-                <div className="relative flex flex-1 flex-col p-4 sm:p-5">
+                <div className="relative flex flex-1 flex-col p-3.5 sm:p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
@@ -330,28 +330,28 @@ export function JobsView() {
                       </div>
                       
                       {/* Sleek Metadata Pills */}
-                      <ul className="mt-3 flex flex-wrap items-center gap-2">
-                        <li className="flex items-center gap-1.5 rounded-full bg-surface-alt/50 px-2.5 py-1 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt sm:text-xs">
-                          <Building2 size={12} className="text-primary/60" /> {job.department}
+                      <ul className="mt-2.5 flex flex-wrap items-center gap-1.5">
+                        <li className="flex items-center gap-1 rounded-full bg-surface-alt/50 px-2 py-0.5 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt">
+                          <Building2 size={11} className="text-primary/60" /> {job.department}
                         </li>
-                        <li className="flex items-center gap-1.5 rounded-full bg-surface-alt/50 px-2.5 py-1 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt sm:text-xs">
-                          <MapPin size={12} className="text-primary/60" /> {job.location}
+                        <li className="flex items-center gap-1 rounded-full bg-surface-alt/50 px-2 py-0.5 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt">
+                          <MapPin size={11} className="text-primary/60" /> {job.location}
                         </li>
                         {job.employment_type && (
-                          <li className="flex items-center gap-1.5 rounded-full bg-surface-alt/50 px-2.5 py-1 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt sm:text-xs">
-                            <Clock size={12} className="text-primary/60" /> {job.employment_type}
+                          <li className="flex items-center gap-1 rounded-full bg-surface-alt/50 px-2 py-0.5 text-[11px] font-medium text-muted transition-colors group-hover:bg-surface-alt">
+                            <Clock size={11} className="text-primary/60" /> {job.employment_type}
                           </li>
                         )}
                       </ul>
                     </div>
                     
                     {/* Floating Action Button style arrow */}
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-alt text-muted transition-all duration-300 group-hover:bg-primary group-hover:text-background">
-                      <ChevronDown size={16} className="-rotate-90" />
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-alt text-muted transition-all duration-300 group-hover:bg-primary group-hover:text-background">
+                      <ChevronDown size={14} className="-rotate-90" />
                     </div>
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between border-t border-border/40 pt-3 opacity-70 transition-opacity group-hover:opacity-100">
+                  <div className="mt-3 flex items-center justify-between border-t border-border/40 pt-2.5 opacity-70 transition-opacity group-hover:opacity-100">
                     <span className="text-[10px] uppercase tracking-wider text-muted sm:text-[11px]">{posted ?? ''}</span>
                     <div className="flex items-center gap-1.5">
                       <div className={`h-2 w-2 rounded-full ${job.is_open ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.3)]'}`} />
@@ -378,10 +378,10 @@ export function JobsView() {
             onSubmit={handleSave}
             className="relative flex h-[100dvh] w-full md:w-[600px] lg:w-[700px] xl:w-[800px] max-w-[100vw] flex-col bg-background shadow-medium animate-slide-in-right"
           >
-            <div className="flex items-start justify-between border-b border-border bg-surface/30 p-6">
+            <div className="flex items-start justify-between border-b border-border bg-surface/30 px-5 py-3.5">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">{formData.id ? 'Edit position' : 'New position'}</p>
-                <h3 id="new-job-title" className="mt-1 font-serif text-xl font-bold text-primary">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">{formData.id ? 'Edit position' : 'New position'}</p>
+                <h3 id="new-job-title" className="mt-0.5 font-serif text-lg sm:text-xl font-bold text-primary">
                   {formData.id ? 'Edit job posting' : 'Create a job posting'}
                 </h3>
               </div>
@@ -392,11 +392,11 @@ export function JobsView() {
                 aria-label="Close"
                 className="rounded-md p-1.5 text-muted transition hover:bg-surface-alt hover:text-primary"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <div className="flex-1 space-y-5 overflow-y-auto p-6">
+            <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-5">
               {formError && (
                 <div role="alert" className="flex items-start gap-3 rounded-md border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-400">
                   <AlertCircle size={18} className="mt-0.5 shrink-0" />
@@ -521,35 +521,35 @@ export function JobsView() {
               </label>
             </div>
 
-            <div className="flex items-center justify-between gap-3 border-t border-border bg-surface-alt/50 p-4 px-6">
+            <div className="flex items-center justify-between gap-3 border-t border-border bg-surface-alt/50 px-5 py-3">
               {formData.id ? (
                 <button
                   type="button"
                   onClick={() => setShowDeleteConfirm(true)}
                   disabled={saving || isDeleting}
-                  className="inline-flex items-center gap-2 rounded-md border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-400 shadow-soft transition-all duration-200 hover:bg-red-500/20 active:scale-[0.98] disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 shadow-soft transition-all duration-200 hover:bg-red-500/20 active:scale-[0.98] disabled:opacity-50"
                 >
-                  <Trash2 size={16} />
+                  <Trash2 size={14} />
                   Delete
                 </button>
               ) : (
                 <div />
               )}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   disabled={saving || isDeleting}
-                  className="rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium text-primary transition hover:border-primary/40"
+                  className="rounded-md border border-border bg-surface px-3.5 py-1.5 text-xs sm:text-sm font-medium text-primary transition hover:border-primary/40"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving || isDeleting}
-                  className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs sm:text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {saving && <Loader2 size={15} className="animate-spin" />}
+                  {saving && <Loader2 size={14} className="animate-spin" />}
                   {saving ? 'Saving' : formData.id ? 'Save changes' : 'Publish job'}
                 </button>
               </div>

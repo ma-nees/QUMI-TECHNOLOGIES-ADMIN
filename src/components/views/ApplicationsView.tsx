@@ -188,21 +188,21 @@ export function ApplicationsView() {
                         setSelectedId(app.id);
                         setShowDetail(true);
                       }}
-                      className={`relative flex w-full gap-3 p-4 text-left transition-colors ${active ? 'bg-primary/5' : 'hover:bg-surface-alt'
+                      className={`relative flex w-full gap-2.5 p-3 text-left transition-colors ${active ? 'bg-primary/5' : 'hover:bg-surface-alt'
                         }`}
                     >
                       {active && <span className="absolute inset-y-0 left-0 w-[3px] bg-primary" />}
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
                         {initials(app.name)}
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline justify-between gap-2">
-                          <span className="truncate text-sm font-semibold text-primary">{app.name}</span>
-                          <span className="shrink-0 text-[11px] text-muted">{shortDate(app.created_at)}</span>
+                          <span className="truncate text-xs sm:text-sm font-semibold text-primary">{app.name}</span>
+                          <span className="shrink-0 text-[10px] text-muted">{shortDate(app.created_at)}</span>
                         </div>
                         <div className="truncate text-xs text-muted">{app.jobs?.title || 'General Application'}</div>
                         {app.cover_letter && (
-                          <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-body/80">{app.cover_letter}</p>
+                          <p className="mt-0.5 line-clamp-2 text-xs leading-snug text-body/80">{app.cover_letter}</p>
                         )}
                       </div>
                     </button>
@@ -218,70 +218,70 @@ export function ApplicationsView() {
       <div className={`${showDetail ? 'block' : 'hidden lg:block'} min-h-[480px] overflow-y-auto bg-background`}>
         {selected ? (
           <article className="flex h-full flex-col">
-            <div className="border-b border-border p-6 sm:p-8 bg-surface">
+            <div className="border-b border-border p-4 sm:p-5 bg-surface">
               <button
                 onClick={() => setShowDetail(false)}
-                className="mb-5 inline-flex items-center gap-2 text-sm text-muted hover:text-primary lg:hidden"
+                className="mb-3 inline-flex items-center gap-1.5 text-xs text-muted hover:text-primary lg:hidden"
               >
-                <ArrowLeft size={16} /> Back to list
+                <ArrowLeft size={14} /> Back to list
               </button>
 
-              <div className="flex justify-between items-start gap-4">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-background">
+              <div className="flex justify-between items-start gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-base font-semibold text-background">
                     {initials(selected.name)}
                   </div>
                   <div className="min-w-0">
-                    <h3 className="truncate text-xl font-serif font-bold text-primary">{selected.name}</h3>
-                    <p className="truncate text-sm text-muted">
+                    <h3 className="truncate text-lg sm:text-xl font-serif font-bold text-primary">{selected.name}</h3>
+                    <p className="truncate text-xs sm:text-sm text-muted">
                       <a href={`mailto:${selected.email}`} className="hover:underline hover:text-primary transition">{selected.email}</a>
                     </p>
-                    <p className="mt-1 text-xs text-muted">{fullDate(selected.created_at)}</p>
+                    <p className="mt-0.5 text-xs text-muted">{fullDate(selected.created_at)}</p>
                   </div>
                 </div>
                 
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
-                  className="shrink-0 rounded-md p-2 text-muted hover:bg-red-500/10 hover:text-red-500 transition-colors"
+                  className="shrink-0 rounded-md p-1.5 text-muted hover:bg-red-500/10 hover:text-red-500 transition-colors"
                   title="Delete Application"
                 >
-                  <Trash2 size={20} />
+                  <Trash2 size={18} />
                 </button>
               </div>
 
-              <div className="mt-5 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
-                  <Tag size={12} /> {selected.jobs?.title || 'General Application'}
+              <div className="mt-3.5 flex flex-wrap gap-1.5">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
+                  <Tag size={11} /> {selected.jobs?.title || 'General Application'}
                 </span>
                 {selected.phone && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs text-body">
-                    <Phone size={13} className="text-muted" /> {selected.phone}
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-0.5 text-xs text-body">
+                    <Phone size={12} className="text-muted" /> {selected.phone}
                   </span>
                 )}
                 {selected.portfolio_url && (
-                  <a href={selected.portfolio_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs text-body hover:border-primary hover:text-primary transition">
-                    <LinkIcon size={13} className="text-muted" /> Portfolio
+                  <a href={selected.portfolio_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-0.5 text-xs text-body hover:border-primary hover:text-primary transition">
+                    <LinkIcon size={12} className="text-muted" /> Portfolio
                   </a>
                 )}
               </div>
             </div>
 
-            <div className="flex-1 p-6 sm:p-8 space-y-8">
+            <div className="flex-1 p-4 sm:p-5 space-y-5">
               {selected.resume_path && (
                 <div>
-                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">Resume / CV</p>
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">Resume / CV</p>
                   <a
                     href={getResumeUrl(selected.resume_path) || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 rounded-md border border-border bg-surface p-4 text-sm font-medium text-primary shadow-soft hover:border-primary/50 transition-colors"
+                    className="inline-flex items-center gap-2.5 rounded-md border border-border bg-surface p-3 text-sm font-medium text-primary shadow-soft hover:border-primary/50 transition-colors"
                   >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-primary/10 text-primary">
-                      <Download size={18} />
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-primary/10 text-primary">
+                      <Download size={16} />
                     </div>
                     <div>
-                      <div className="block">Download Resume</div>
-                      <div className="text-xs text-muted font-normal mt-0.5">Click to view or save file</div>
+                      <div className="block text-xs sm:text-sm">Download Resume</div>
+                      <div className="text-[11px] text-muted font-normal">Click to view or save file</div>
                     </div>
                   </a>
                 </div>

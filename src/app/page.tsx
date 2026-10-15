@@ -144,14 +144,14 @@ export default function AdminDashboard() {
 
       {/* Main content */}
       <main className="flex min-w-0 w-full flex-1 flex-col overflow-y-auto">
-        <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border bg-surface/80 px-4 backdrop-blur-md sm:h-[88px] sm:px-8">
+        <header className="sticky top-0 z-10 flex h-14 sm:h-16 items-center justify-between border-b border-border bg-surface/80 px-4 backdrop-blur-md sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <button
               className="-ml-2 rounded-md p-2 text-primary transition-colors hover:bg-surface-alt md:hidden"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-label="Open menu"
             >
-              <Menu size={28} strokeWidth={2.5} />
+              <Menu size={26} strokeWidth={2.5} />
             </button>
             <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-base md:text-sm">
               <span className="hidden text-muted sm:inline">Administration</span>
@@ -160,23 +160,23 @@ export default function AdminDashboard() {
             </nav>
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4 sm:gap-5">
             <ThemeToggle />
             <span className="hidden text-xs text-muted lg:block">{today}</span>
-            <div className="hidden h-6 w-px bg-border lg:block" />
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-xs font-semibold text-background shadow-soft sm:h-10 sm:w-10">
+            <div className="hidden h-5 w-px bg-border lg:block" />
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-background shadow-soft sm:h-9 sm:w-9">
                 {initialsFromEmail(email)}
               </div>
               <div className="hidden min-w-0 sm:block">
-                <div className="max-w-[200px] truncate text-sm font-medium text-primary">{email ?? 'Administrator'}</div>
-                <div className="text-[11px] uppercase tracking-wider text-muted">Administrator</div>
+                <div className="max-w-[200px] truncate text-xs sm:text-sm font-medium text-primary">{email ?? 'Administrator'}</div>
+                <div className="text-[10px] sm:text-[11px] uppercase tracking-wider text-muted">Administrator</div>
               </div>
             </div>
           </div>
         </header>
 
-        <div key={activeTab} className="mx-auto w-full max-w-7xl p-4 sm:p-8 animate-fade-in-up">
+        <div key={activeTab} className="mx-auto w-full max-w-7xl p-3 sm:p-5 lg:p-6 animate-fade-in-up">
           {activeTab === 'Case Studies' && <CaseStudiesView />}
           {activeTab === 'Messages' && <MessagesView />}
           {activeTab === 'Jobs' && <JobsView />}

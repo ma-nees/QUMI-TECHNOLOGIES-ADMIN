@@ -253,16 +253,16 @@ export function MessagesView() {
         <div className="grid lg:grid-cols-[380px_1fr]">
           {/* List column */}
           <div className={`${showDetail ? 'hidden lg:block' : 'block'} border-border lg:border-r`}>
-            <div className="space-y-3 border-b border-border p-4">
+            <div className="space-y-2.5 border-b border-border p-3">
               <div className="relative">
-                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                 <input
                   type="search"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
                   placeholder="Search by name, email or keyword"
                   aria-label="Search messages"
-                  className="w-full rounded-md border border-border bg-background py-2 pl-9 pr-3 text-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                  className="w-full rounded-md border border-border bg-background py-1.5 pl-9 pr-3 text-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                 />
               </div>
 
@@ -272,7 +272,7 @@ export function MessagesView() {
                     <button
                       key={t}
                       onClick={() => setTopic(t)}
-                      className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-wider transition ${topic === t
+                      className={`rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider transition ${topic === t
                           ? 'border-primary bg-primary text-background'
                           : 'border-border bg-background text-muted hover:border-primary/40 hover:text-primary'
                         }`}
@@ -288,23 +288,23 @@ export function MessagesView() {
               {loading ? (
                 <Skeleton />
               ) : error ? (
-                <div className="flex flex-col items-center gap-3 p-10 text-center">
-                  <AlertCircle className="text-red-600" size={28} />
+                <div className="flex flex-col items-center gap-3 p-8 text-center">
+                  <AlertCircle className="text-red-600" size={24} />
                   <p className="text-sm text-muted">{error}</p>
                   <button
                     onClick={load}
-                    className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-background shadow-soft hover:bg-primary/90"
+                    className="inline-flex items-center gap-2 rounded-md bg-primary px-3.5 py-1.5 text-xs sm:text-sm font-medium text-background shadow-soft hover:bg-primary/90"
                   >
                     <RefreshCw size={14} /> Try again
                   </button>
                 </div>
               ) : filtered.length === 0 ? (
-                <div className="flex flex-col items-center gap-3 p-12 text-center">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <Inbox size={22} />
+                <div className="flex flex-col items-center gap-3 p-8 text-center">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <Inbox size={20} />
                   </div>
-                  <p className="font-medium text-primary">{messages.length ? 'No matching messages' : 'No messages yet'}</p>
-                  <p className="text-sm text-muted">
+                  <p className="font-medium text-sm text-primary">{messages.length ? 'No matching messages' : 'No messages yet'}</p>
+                  <p className="text-xs text-muted">
                     {messages.length
                       ? 'Try a different search term or clear the topic filter.'
                       : 'New enquiries from the website will appear here.'}
@@ -321,20 +321,20 @@ export function MessagesView() {
                             setSelectedId(msg.id);
                             setShowDetail(true);
                           }}
-                          className={`relative flex w-full gap-3 p-4 text-left transition-colors ${active ? 'bg-primary/5' : 'hover:bg-surface-alt'
+                          className={`relative flex w-full gap-2.5 p-3 text-left transition-colors ${active ? 'bg-primary/5' : 'hover:bg-surface-alt'
                             }`}
                         >
                           {active && <span className="absolute inset-y-0 left-0 w-[3px] bg-primary" />}
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
                             {initials(msg.name)}
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-baseline justify-between gap-2">
-                              <span className="truncate text-sm font-semibold text-primary">{msg.name}</span>
-                              <span className="shrink-0 text-[11px] text-muted">{shortDate(msg.created_at)}</span>
+                              <span className="truncate text-xs sm:text-sm font-semibold text-primary">{msg.name}</span>
+                              <span className="shrink-0 text-[10px] text-muted">{shortDate(msg.created_at)}</span>
                             </div>
                             <div className="truncate text-xs text-muted">{msg.topic || 'General enquiry'}</div>
-                            <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-body/80">{msg.message}</p>
+                            <p className="mt-0.5 line-clamp-2 text-xs leading-snug text-body/80">{msg.message}</p>
                           </div>
                         </button>
                       </li>
@@ -349,49 +349,49 @@ export function MessagesView() {
           <div className={`${showDetail ? 'block' : 'hidden lg:block'} min-h-[480px]`}>
             {selected ? (
               <article className="flex h-full flex-col">
-                <div className="border-b border-border p-6 sm:p-8">
+                <div className="border-b border-border p-4 sm:p-5">
                   <button
                     onClick={() => setShowDetail(false)}
-                    className="mb-5 inline-flex items-center gap-2 text-sm text-muted hover:text-primary lg:hidden"
+                    className="mb-3 inline-flex items-center gap-1.5 text-xs text-muted hover:text-primary lg:hidden"
                   >
-                    <ArrowLeft size={16} /> Back to messages
+                    <ArrowLeft size={14} /> Back to messages
                   </button>
 
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-background">
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-base font-semibold text-background">
                       {initials(selected.name)}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate text-xl font-serif font-bold text-primary">{selected.name}</h3>
-                      <p className="truncate text-sm text-muted">{selected.email}</p>
-                      <p className="mt-1 text-xs text-muted">{fullDate(selected.created_at)}</p>
+                      <h3 className="truncate text-lg sm:text-xl font-serif font-bold text-primary">{selected.name}</h3>
+                      <p className="truncate text-xs sm:text-sm text-muted">{selected.email}</p>
+                      <p className="mt-0.5 text-xs text-muted">{fullDate(selected.created_at)}</p>
                     </div>
                   </div>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  <div className="mt-3.5 flex flex-wrap gap-1.5">
                     {selected.company && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs text-body">
-                        <Building2 size={13} className="text-muted" /> {selected.company}
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-0.5 text-xs text-body">
+                        <Building2 size={12} className="text-muted" /> {selected.company}
                       </span>
                     )}
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
-                      <Tag size={12} /> {selected.topic || 'General enquiry'}
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
+                      <Tag size={11} /> {selected.topic || 'General enquiry'}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex-1 p-6 sm:p-8">
-                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">Message</p>
-                  <div className="whitespace-pre-wrap rounded-md border border-border/60 border-l-[3px] border-l-primary bg-background p-5 text-[15px] leading-relaxed text-body">
+                <div className="flex-1 p-4 sm:p-5">
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">Message</p>
+                  <div className="whitespace-pre-wrap rounded-md border border-border/60 border-l-[3px] border-l-primary bg-background p-3.5 sm:p-4 text-sm leading-relaxed text-body">
                     {selected.message}
                   </div>
                 </div>
 
                 <div className="flex flex-col border-t border-border bg-surface-alt/50">
                   {isComposing ? (
-                    <div className="p-4 sm:p-6 space-y-4">
+                    <div className="p-3.5 sm:p-4 space-y-3">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-semibold text-primary">Reply to {selected.name}</h4>
+                        <h4 className="text-xs sm:text-sm font-semibold text-primary">Reply to {selected.name}</h4>
                         <button 
                           onClick={() => setIsComposing(false)}
                           className="text-xs text-muted hover:text-primary transition"
@@ -400,12 +400,12 @@ export function MessagesView() {
                         </button>
                       </div>
                       {actionStatus && (
-                        <div className={`flex items-start gap-2 rounded-md p-3 text-sm ${
+                        <div className={`flex items-start gap-2 rounded-md p-2.5 text-xs sm:text-sm ${
                           actionStatus.type === 'success' 
                             ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
                             : 'bg-red-500/10 text-red-400 border border-red-500/20'
                         }`}>
-                          {actionStatus.type === 'success' ? <Check size={16} className="mt-0.5 shrink-0" /> : <AlertCircle size={16} className="mt-0.5 shrink-0" />}
+                          {actionStatus.type === 'success' ? <Check size={15} className="mt-0.5 shrink-0" /> : <AlertCircle size={15} className="mt-0.5 shrink-0" />}
                           {actionStatus.msg}
                         </div>
                       )}
@@ -413,29 +413,29 @@ export function MessagesView() {
                         value={replyText}
                         onChange={e => setReplyText(e.target.value)}
                         placeholder="Type your reply here..."
-                        className="w-full h-32 rounded-md border border-border bg-background p-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                        className="w-full h-28 rounded-md border border-border bg-background p-2.5 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                       />
-                      <div className="flex justify-between gap-3">
+                      <div className="flex justify-between gap-2.5">
                         <button
                           onClick={handleEnhance}
                           disabled={isEnhancing || !replyText.trim()}
-                          className="inline-flex items-center gap-2 rounded-md border border-purple-500/20 bg-purple-500/10 px-4 py-2.5 text-sm font-medium text-purple-400 shadow-soft transition-all duration-200 hover:bg-purple-500/20 active:scale-[0.98] disabled:opacity-50"
+                          className="inline-flex items-center gap-1.5 rounded-md border border-purple-500/20 bg-purple-500/10 px-3 py-1.5 text-xs font-medium text-purple-400 shadow-soft transition-all duration-200 hover:bg-purple-500/20 active:scale-[0.98] disabled:opacity-50"
                         >
-                          <Wand2 size={16} className={isEnhancing ? "animate-pulse" : ""} />
+                          <Wand2 size={14} className={isEnhancing ? "animate-pulse" : ""} />
                           {isEnhancing ? 'Enhancing...' : 'Enhance with AI'}
                         </button>
                         <button
                           onClick={handleSendReply}
                           disabled={isSending || !replyText.trim()}
-                          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
+                          className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-1.5 text-xs font-medium text-background shadow-soft transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
                         >
-                          {isSending ? <RefreshCw size={16} className="animate-spin" /> : <Mail size={16} />}
+                          {isSending ? <RefreshCw size={14} className="animate-spin" /> : <Mail size={14} />}
                           {isSending ? 'Sending...' : 'Send Reply'}
                         </button>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:px-8">
+                    <div className="flex flex-wrap items-center justify-between gap-3 p-3 sm:px-5">
                       <div className="flex flex-wrap items-center gap-3">
                         <button
                           onClick={() => {
