@@ -117,3 +117,14 @@ export async function deleteApplication(id: string | number) {
   return { success: true };
 }
 
+/* ---------------------------- Project Case Studies (Server Actions) ---------------------------- */
+export {
+  fetchCaseStudies,
+  createCaseStudy,
+  updateCaseStudy,
+  deleteCaseStudy,
+  uploadCaseStudyImage,
+} from './case-studies';
+
+
+

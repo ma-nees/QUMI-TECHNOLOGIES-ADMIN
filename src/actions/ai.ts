@@ -2,7 +2,7 @@
 
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY || "";
 
-export async function enhanceTextWithAI(text: string, context: 'reply' | 'description'): Promise<{ success: true; enhancedText: string } | { success: false; error: string }> {
+export async function enhanceTextWithAI(text: string, context: 'reply' | 'description' | 'case_study'): Promise<{ success: true; enhancedText: string } | { success: false; error: string }> {
   if (!text || !text.trim()) {
     return { success: false, error: "Text is empty." };
   }
@@ -10,6 +10,8 @@ export async function enhanceTextWithAI(text: string, context: 'reply' | 'descri
   let prompt = "";
   if (context === 'reply') {
     prompt = `You are a professional customer support representative for QUMI Technologies. Enhance the following draft reply to a client to make it sound highly professional, polite, and articulate. Maintain the core meaning but improve the tone. Do NOT add any surrounding quotes or introductory text. Do NOT add any sign-off, signature, or closing (like "Best regards") - the system will automatically append the signature later. Just output the body of the message.\n\nDraft:\n${text}`;
+  } else if (context === 'case_study') {
+    prompt = `You are a senior enterprise technical architect and copywriter for QUMI Technologies. Enhance the following project case study text (problem, technical solution, or key business outcomes) to sound authoritative, precise, and metric-focused. Maintain technical accuracy. Plain text only, no asterisks, no quotes.\n\nDraft:\n${text}`;
   } else {
     prompt = `You are an expert copywriter for QUMI Technologies. Enhance the following company description/text to make it sound premium, engaging, and professional. \nIMPORTANT RULES:\n- Do NOT use any Markdown formatting (no asterisks ** for bolding).\n- Use plain text only.\n- Ensure proper line breaks and spacing using newline characters so paragraphs and list items do not merge together.\n- Do NOT add any surrounding quotes or introductory text.\n\nDraft:\n${text}`;
   }

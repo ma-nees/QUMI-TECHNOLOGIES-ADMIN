@@ -6,6 +6,7 @@ import { MessagesView } from '@/components/views/MessagesView';
 import { JobsView } from '@/components/views/JobsView';
 import { ApplicationsView } from '@/components/views/ApplicationsView';
 import { SettingsView } from '@/components/views/SettingsView';
+import { CaseStudiesView } from '@/components/views/CaseStudiesView';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LoginView } from '@/components/views/LoginView';
 import { Sidebar } from '@/components/layout/Sidebar';
@@ -176,6 +177,7 @@ export default function AdminDashboard() {
         </header>
 
         <div key={activeTab} className="mx-auto w-full max-w-7xl p-4 sm:p-8 animate-fade-in-up">
+          {activeTab === 'Case Studies' && <CaseStudiesView />}
           {activeTab === 'Messages' && <MessagesView />}
           {activeTab === 'Jobs' && <JobsView />}
           {activeTab === 'Applications' && <ApplicationsView />}

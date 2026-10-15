@@ -1,10 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Settings, Mail, Briefcase, LogOut, Loader2, Inbox } from 'lucide-react';
+import { Settings, Mail, Briefcase, LogOut, Loader2, Inbox, FolderKanban } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { supabase } from '@/lib/supabase';
 
 export const menuItems = [
+  { name: 'Case Studies', icon: <FolderKanban size={20} />, hint: 'Project case studies' },
   { name: 'Messages', icon: <Mail size={20} />, hint: 'Website enquiries' },
   { name: 'Jobs', icon: <Briefcase size={20} />, hint: 'Careers and openings' },
   { name: 'Applications', icon: <Inbox size={20} />, hint: 'Candidate submissions' },
