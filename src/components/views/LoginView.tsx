@@ -7,15 +7,15 @@ import { useTheme } from 'next-themes';
 const HIGHLIGHTS = [
   {
     title: 'Centralised administration',
-    text: 'Manage institute records, staff and day-to-day operations from a single, consistent workspace.',
+    text: 'Manage client enquiries, job postings, candidate applications, and company settings from a single, consistent workspace.',
   },
   {
     title: 'Restricted access',
-    text: 'Accounts are issued by the institute. Sign-in is limited to authorised administrators.',
+    text: 'Sign-in is strictly limited to authorised QUMI administrators.',
   },
   {
-    title: 'Dependable and private',
-    text: 'Information is stored securely and is available only to those who need it to do their work.',
+    title: 'Dependable and secure',
+    text: 'Real-time synchronization with production database protected by Row Level Security.',
   },
 ];
 
@@ -87,17 +87,17 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             />
             <div>
               <div className="font-serif text-xl font-bold tracking-wide">QUMI</div>
-              <div className="text-xs uppercase tracking-[0.2em] text-background/70">Institute Administration</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-background/70">Administration Portal</div>
             </div>
           </div>
         </div>
 
         <div className="relative max-w-lg">
           <h2 className="font-serif text-4xl xl:text-5xl font-bold leading-tight text-background">
-            Administration portal for institute staff
+            Administration portal for QUMI Technologies
           </h2>
           <p className="mt-5 text-base leading-relaxed text-background/80">
-            Sign in to manage records, oversee operations and keep the institute running smoothly.
+            Sign in to manage client enquiries, careers, applicant submissions, and global company settings.
           </p>
 
           <ul className="mt-10 space-y-6">
@@ -114,7 +114,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
         </div>
 
         <div className="relative text-xs text-background/60">
-          &copy; {new Date().getFullYear()} QUMI. All rights reserved.
+          &copy; {new Date().getFullYear()} QUMI Technologies. All rights reserved.
         </div>
       </aside>
 
@@ -132,7 +132,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             />
             <div>
               <div className="font-serif text-lg font-bold text-primary leading-none">QUMI</div>
-              <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted">Institute Administration</div>
+              <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted">Administration Portal</div>
             </div>
           </div>
 
@@ -140,7 +140,7 @@ export function LoginView({ initialError }: { initialError?: string | null }) {
             <div className="mb-8">
               <h1 className="text-2xl font-serif font-bold text-primary">Administrator sign in</h1>
               <p className="text-sm text-muted mt-2 leading-relaxed">
-                Enter the credentials issued to you by the institute to access the administration portal.
+                Enter your administrator credentials to access the QUMI management portal.
               </p>
             </div>
 
