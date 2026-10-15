@@ -467,16 +467,16 @@ export function CaseStudiesView() {
                   </div>
 
                   {/* External Links overlay */}
-                  <div className="absolute right-2 top-2 flex items-center gap-1">
+                  <div className="absolute right-2 top-2 flex items-center gap-1.5 z-10">
                     {cs.live_url && (
                       <a
                         href={cs.live_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex h-6 w-6 items-center justify-center rounded-md bg-black/60 text-white backdrop-blur-sm hover:bg-primary transition"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg bg-black/70 text-white backdrop-blur-sm hover:bg-primary transition shadow-sm"
                         title={`Live Link: ${cs.live_url}`}
                       >
-                        <Globe size={13} />
+                        <Globe size={16} />
                       </a>
                     )}
                     {cs.github_url && (
@@ -484,10 +484,10 @@ export function CaseStudiesView() {
                         href={cs.github_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex h-6 w-6 items-center justify-center rounded-md bg-black/60 text-white backdrop-blur-sm hover:bg-primary transition"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg bg-black/70 text-white backdrop-blur-sm hover:bg-primary transition shadow-sm"
                         title={`GitHub: ${cs.github_url}`}
                       >
-                        <GithubIcon className="w-3.5 h-3.5" />
+                        <GithubIcon className="w-4 h-4" />
                       </a>
                     )}
                   </div>
@@ -751,7 +751,7 @@ export function CaseStudiesView() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
                     <label className="mb-1 flex items-center gap-1.5 text-xs text-muted">
-                      <GithubIcon className="w-3.5 h-3.5 text-primary" />
+                      <GithubIcon className="w-4 h-4 text-primary" />
                       GitHub Repository
                     </label>
                     <input
@@ -764,7 +764,7 @@ export function CaseStudiesView() {
                   </div>
                   <div>
                     <label className="mb-1 flex items-center gap-1.5 text-xs text-muted">
-                      <Globe size={13} className="text-primary" />
+                      <Globe size={15} className="text-primary" />
                       Live Website / Demo
                     </label>
                     <input
