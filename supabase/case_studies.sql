@@ -9,9 +9,15 @@ create table if not exists public.case_studies (
   technology text not null,
   result text,
   image_url text,
+  github_url text,
+  live_url text,
   is_published boolean not null default true,
   created_at timestamptz not null default now()
 );
+
+-- Ensure optional columns exist if table was already created
+alter table public.case_studies add column if not exists github_url text;
+alter table public.case_studies add column if not exists live_url text;
 
 -- Enable Row Level Security
 alter table public.case_studies enable row level security;
@@ -40,7 +46,7 @@ create policy "admin delete case studies" on public.case_studies
   using (true);
 
 -- Seed default case studies
-insert into public.case_studies (id, title, client, industry, problem, solution, technology, result, image_url, is_published)
+insert into public.case_studies (id, title, client, industry, problem, solution, technology, result, image_url, github_url, live_url, is_published)
 values
 (
   'e6c0c2a2-3b24-4f9e-9d22-77e8a9391001',
@@ -52,6 +58,8 @@ values
   'React, Node.js, PostgreSQL, Docker, AWS KMS',
   'Reduced average loan turnaround time from 5 days to under 2 hours, processing $18M in quarterly originations with zero compliance violations.',
   'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=80',
+  'https://github.com/qumi-tech',
+  'https://apex-lending-demo.qumi.tech',
   true
 ),
 (
@@ -64,6 +72,8 @@ values
   'React Native, Go, AWS IoT Core, Redis, TimescaleDB',
   'Eliminated 28% of route deadhead mileage, cut dispatcher overhead by 40 hours weekly, and achieved a 99.4% on-time delivery metric.',
   'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+  null,
+  'https://fleet-telemetry.qumi.tech',
   true
 ),
 (
@@ -76,6 +86,8 @@ values
   'Next.js, Python, FastAPI, Azure Health Data Services, PostgreSQL',
   'Handling 14,000+ monthly appointments with zero double-bookings, reducing clinic waiting room wait times by 65% in the first quarter of deployment.',
   'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
+  'https://github.com/qumi-tech',
+  null,
   true
 )
 on conflict (id) do nothing;

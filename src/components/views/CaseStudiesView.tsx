@@ -7,6 +7,7 @@ import {
   Check,
   CheckCircle2,
   ChevronDown,
+  ExternalLink,
   FolderKanban,
   Globe,
   ImageIcon,
@@ -30,6 +31,14 @@ import {
 } from '@/actions';
 import { enhanceTextWithAI } from '@/actions/ai';
 
+function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+    </svg>
+  );
+}
+
 export type CaseStudy = {
   id: string | number;
   title: string;
@@ -40,6 +49,8 @@ export type CaseStudy = {
   technology: string;
   result?: string | null;
   image_url?: string | null;
+  github_url?: string | null;
+  live_url?: string | null;
   is_published: boolean;
   created_at?: string;
 };
@@ -53,6 +64,8 @@ const EMPTY_CASE_STUDY: Omit<CaseStudy, 'id'> = {
   technology: '',
   result: '',
   image_url: '',
+  github_url: '',
+  live_url: '',
   is_published: true,
 };
 
@@ -168,6 +181,8 @@ export function CaseStudiesView() {
       technology: cs.technology,
       result: cs.result || '',
       image_url: cs.image_url || '',
+      github_url: cs.github_url || '',
+      live_url: cs.live_url || '',
       is_published: cs.is_published ?? true,
     });
     setFormError(null);
@@ -412,15 +427,15 @@ export function CaseStudiesView() {
           </button>
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map(cs => (
             <article
               key={cs.id}
-              className="group relative flex flex-col justify-between overflow-hidden rounded-lg border border-border bg-surface shadow-soft transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-medium"
+              className="group relative flex flex-col justify-between overflow-hidden rounded-lg border border-border bg-surface shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-medium"
             >
               <div>
                 {/* Image Banner */}
-                <div className="relative aspect-video w-full overflow-hidden bg-muted">
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
                   {cs.image_url ? (
                     <img
                       src={cs.image_url}
@@ -430,18 +445,18 @@ export function CaseStudiesView() {
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-primary/5 text-muted">
-                      <ImageIcon size={32} />
+                      <ImageIcon size={28} />
                     </div>
                   )}
 
                   {/* Badges Overlay */}
-                  <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5">
-                    <span className="rounded-md bg-background/90 px-2 py-0.5 font-mono text-[11px] font-semibold text-primary backdrop-blur-sm">
+                  <div className="absolute left-2 top-2 flex items-center gap-1.5">
+                    <span className="rounded-md bg-background/90 px-2 py-0.5 font-mono text-[10px] font-semibold text-primary backdrop-blur-sm">
                       {cs.industry}
                     </span>
                     <button
                       onClick={() => togglePublished(cs)}
-                      className={`rounded-md px-2 py-0.5 text-[11px] font-semibold backdrop-blur-sm transition ${cs.is_published
+                      className={`rounded-md px-1.5 py-0.5 text-[10px] font-semibold backdrop-blur-sm transition ${cs.is_published
                           ? 'bg-emerald-500/90 text-white'
                           : 'bg-amber-500/90 text-white'
                         }`}
@@ -451,55 +466,74 @@ export function CaseStudiesView() {
                     </button>
                   </div>
 
+                  {/* External Links overlay */}
+                  <div className="absolute right-2 top-2 flex items-center gap-1">
+                    {cs.live_url && (
+                      <a
+                        href={cs.live_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-6 w-6 items-center justify-center rounded-md bg-black/60 text-white backdrop-blur-sm hover:bg-primary transition"
+                        title={`Live Link: ${cs.live_url}`}
+                      >
+                        <Globe size={13} />
+                      </a>
+                    )}
+                    {cs.github_url && (
+                      <a
+                        href={cs.github_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-6 w-6 items-center justify-center rounded-md bg-black/60 text-white backdrop-blur-sm hover:bg-primary transition"
+                        title={`GitHub: ${cs.github_url}`}
+                      >
+                        <GithubIcon className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+
                   {cs.client && (
-                    <span className="absolute bottom-2.5 left-2.5 rounded bg-black/60 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
-                      Client: {cs.client}
+                    <span className="absolute bottom-2 left-2 rounded bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
+                      {cs.client}
                     </span>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="p-3.5 sm:p-4">
-                  <h3 className="font-serif text-base sm:text-lg font-bold leading-snug text-primary group-hover:text-primary transition-colors">
+                <div className="p-3">
+                  <h3 className="font-serif text-sm sm:text-base font-bold leading-snug text-primary group-hover:text-primary transition-colors line-clamp-1">
                     {cs.title}
                   </h3>
 
-                  <div className="mt-2 space-y-1.5 text-xs leading-relaxed text-body">
-                    <div>
-                      <strong className="text-primary font-semibold">Challenge: </strong>
-                      <span className="text-muted line-clamp-2">{cs.problem}</span>
-                    </div>
-                    <div>
-                      <strong className="text-primary font-semibold">Solution: </strong>
-                      <span className="text-muted line-clamp-2">{cs.solution}</span>
-                    </div>
-                  </div>
+                  <p className="mt-1 text-xs text-muted leading-relaxed line-clamp-2">
+                    {cs.solution || cs.problem}
+                  </p>
 
                   {cs.result && (
-                    <div className="mt-2 rounded-md border border-primary/20 bg-primary/5 p-2 text-xs text-primary">
-                      <div className="font-semibold text-[10px] uppercase tracking-wider mb-0.5">Key Outcome</div>
-                      <p className="line-clamp-2 leading-relaxed">{cs.result}</p>
+                    <div className="mt-2 flex items-center gap-1.5 text-[11px] font-medium text-primary">
+                      <span className="shrink-0 text-xs">✦</span>
+                      <span className="truncate">{cs.result}</span>
                     </div>
                   )}
 
                   {/* Tech stack tags */}
-                  <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  <div className="mt-2 flex flex-wrap gap-1">
                     {cs.technology
                       .split(',')
                       .map(t => t.trim())
                       .filter(Boolean)
-                      .slice(0, 4)
+                      .slice(0, 3)
                       .map(tech => (
                         <span
                           key={tech}
-                          className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted"
+                          className="rounded border border-border bg-background px-1.5 py-0.2 font-mono text-[10px] text-muted"
                         >
                           {tech}
                         </span>
                       ))}
-                    {cs.technology.split(',').length > 4 && (
-                      <span className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted">
-                        +{cs.technology.split(',').length - 4}
+                    {cs.technology.split(',').length > 3 && (
+                      <span className="rounded border border-border bg-background px-1 py-0.2 font-mono text-[9px] text-muted">
+                        +{cs.technology.split(',').length - 3}
                       </span>
                     )}
                   </div>
@@ -507,22 +541,22 @@ export function CaseStudiesView() {
               </div>
 
               {/* Bottom Actions */}
-              <div className="flex items-center justify-between border-t border-border bg-surface-alt/40 px-3.5 py-2 text-xs">
-                <span className="text-muted font-mono text-[11px]">
+              <div className="flex items-center justify-between border-t border-border bg-surface-alt/40 px-3 py-1.5 text-xs">
+                <span className="text-muted font-mono text-[10px]">
                   {cs.created_at ? new Date(cs.created_at).toLocaleDateString() : 'Active'}
                 </span>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => openEdit(cs)}
-                    className="font-semibold text-primary hover:underline"
+                    className="font-semibold text-primary hover:underline text-xs"
                   >
                     Edit
                   </button>
                   <span className="text-border">|</span>
                   <button
                     onClick={() => setDeleteId(cs.id)}
-                    className="text-red-500 hover:text-red-600 transition"
+                    className="text-red-500 hover:text-red-600 transition text-xs"
                     title="Delete case study"
                   >
                     Delete
@@ -706,6 +740,42 @@ export function CaseStudiesView() {
                   placeholder="e.g. Reduced processing cycle from 5 days to 2 hours with 99.9% uptime."
                   className="w-full rounded-md border border-border bg-background p-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
+              </div>
+
+              {/* Optional Links: GitHub & Live Demo */}
+              <div className="rounded-lg border border-border bg-surface-alt/30 p-3 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-semibold text-primary">Project Links</label>
+                  <span className="text-[10px] text-muted">Optional</span>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 flex items-center gap-1.5 text-xs text-muted">
+                      <GithubIcon className="w-3.5 h-3.5 text-primary" />
+                      GitHub Repository
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.github_url || ''}
+                      onChange={e => setFormData(prev => ({ ...prev, github_url: e.target.value }))}
+                      placeholder="e.g. https://github.com/qumi-tech/project"
+                      className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 flex items-center gap-1.5 text-xs text-muted">
+                      <Globe size={13} className="text-primary" />
+                      Live Website / Demo
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.live_url || ''}
+                      onChange={e => setFormData(prev => ({ ...prev, live_url: e.target.value }))}
+                      placeholder="e.g. https://myproject.com"
+                      className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Cover Image & Upload */}
