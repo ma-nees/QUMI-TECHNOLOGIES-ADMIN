@@ -38,3 +38,44 @@ create policy "admin update case studies" on public.case_studies
 create policy "admin delete case studies" on public.case_studies
   for delete to authenticated
   using (true);
+
+-- Seed default case studies
+insert into public.case_studies (id, title, client, industry, problem, solution, technology, result, image_url, is_published)
+values
+(
+  'e6c0c2a2-3b24-4f9e-9d22-77e8a9391001',
+  'Digital Lending & Automated Underwriting Platform',
+  'Apex Financial Services',
+  'FinTech',
+  'Manual loan origination across 40+ branch offices caused 5 to 7 day processing delays, high overhead, and inconsistent audit trails.',
+  'Architected an enterprise web platform with automated credit score computation, multi-tier approval workflows, and instant biometric KYC verification.',
+  'React, Node.js, PostgreSQL, Docker, AWS KMS',
+  'Reduced average loan turnaround time from 5 days to under 2 hours, processing $18M in quarterly originations with zero compliance violations.',
+  'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=80',
+  true
+),
+(
+  'e6c0c2a2-3b24-4f9e-9d22-77e8a9391002',
+  'Fleet & Real-Time Logistics Telemetry Dispatch',
+  'Metro Express Logistics',
+  'Logistics',
+  'Dispatchers lacked live visibility into 500+ commercial transport vehicles, resulting in route delays, idle fuel waste, and manual phone coordination.',
+  'Engineered a low-latency GPS stream processing pipeline, live central dispatcher command console, and offline-resilient mobile apps for fleet drivers.',
+  'React Native, Go, AWS IoT Core, Redis, TimescaleDB',
+  'Eliminated 28% of route deadhead mileage, cut dispatcher overhead by 40 hours weekly, and achieved a 99.4% on-time delivery metric.',
+  'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+  true
+),
+(
+  'e6c0c2a2-3b24-4f9e-9d22-77e8a9391003',
+  'Clinical Patient Records & Teleconsultation Portal',
+  'CarePlus Medical Group',
+  'Healthcare',
+  'Paper-heavy patient charting, long clinic waiting queues, and telephone appointment bottlenecks created administrative friction and patient dissatisfaction.',
+  'Developed a secure, HIPAA-compliant patient portal with automated appointment booking, multi-doctor calendar sync, and encrypted lab report delivery.',
+  'Next.js, Python, FastAPI, Azure Health Data Services, PostgreSQL',
+  'Handling 14,000+ monthly appointments with zero double-bookings, reducing clinic waiting room wait times by 65% in the first quarter of deployment.',
+  'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
+  true
+)
+on conflict (id) do nothing;

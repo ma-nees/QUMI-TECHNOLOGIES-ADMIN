@@ -64,6 +64,8 @@ const INDUSTRIES = [
   'AI & Cloud',
   'EdTech',
   'Enterprise Software',
+  'App',
+  'Website'
 ];
 
 const PRESET_IMAGES = [
@@ -339,11 +341,10 @@ export function CaseStudiesView() {
               <button
                 key={ind}
                 onClick={() => setSelectedIndustry(ind)}
-                className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                  active
+                className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${active
                     ? 'bg-primary text-background'
                     : 'border border-border bg-background text-muted hover:border-primary/40 hover:text-primary'
-                }`}
+                  }`}
               >
                 {ind}
               </button>
@@ -357,9 +358,8 @@ export function CaseStudiesView() {
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
-              className={`rounded px-2 py-1 text-xs font-medium transition ${
-                statusFilter === s ? 'bg-primary/10 font-bold text-primary' : 'text-muted hover:text-primary'
-              }`}
+              className={`rounded px-2 py-1 text-xs font-medium transition ${statusFilter === s ? 'bg-primary/10 font-bold text-primary' : 'text-muted hover:text-primary'
+                }`}
             >
               {s}
             </button>
@@ -441,11 +441,10 @@ export function CaseStudiesView() {
                     </span>
                     <button
                       onClick={() => togglePublished(cs)}
-                      className={`rounded-md px-2 py-0.5 text-[11px] font-semibold backdrop-blur-sm transition ${
-                        cs.is_published
+                      className={`rounded-md px-2 py-0.5 text-[11px] font-semibold backdrop-blur-sm transition ${cs.is_published
                           ? 'bg-emerald-500/90 text-white'
                           : 'bg-amber-500/90 text-white'
-                      }`}
+                        }`}
                       title="Click to toggle publish status"
                     >
                       {cs.is_published ? 'Published' : 'Draft'}
