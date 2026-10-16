@@ -216,7 +216,12 @@ export function CaseStudiesView() {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert('Please select an image file (PNG, JPG, WebP).');
+      alert('Please select an image file (PNG, JPG, WebP, SVG, GIF).');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Image file size must be less than 10MB.');
       return;
     }
 
@@ -225,14 +230,16 @@ export function CaseStudiesView() {
       const fd = new FormData();
       fd.append('file', file);
       const res = await uploadCaseStudyImage(fd);
-      if (res.publicUrl) {
-        setFormData(prev => ({ ...prev, image_url: res.publicUrl }));
+      const url = res.publicUrl || res.secure_url;
+      if (url) {
+        setFormData(prev => ({ ...prev, image_url: url }));
       }
     } catch (err: any) {
       console.error('Image upload failed:', err);
       alert('Upload failed: ' + (err.message || 'Unknown error'));
     } finally {
       setUploadingImage(false);
+      e.target.value = '';
     }
   };
 
@@ -275,9 +282,11 @@ export function CaseStudiesView() {
   const confirmDelete = async () => {
     if (!deleteId) return;
     setIsDeleting(true);
+    const targetId = deleteId;
     try {
-      await deleteCaseStudy(deleteId);
+      await deleteCaseStudy(targetId);
       setDeleteId(null);
+      setCaseStudies(prev => prev.filter(c => String(c.id) !== String(targetId)));
       await loadData();
     } catch (err: any) {
       alert('Failed to delete: ' + err.message);
@@ -298,87 +307,89 @@ export function CaseStudiesView() {
   };
 
   return (
-    <div className="space-y-4 animate-fade-in-up">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in-up">
       {/* Top Header & Actions */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted">Portfolio Management</span>
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-muted">Portfolio Management</span>
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] sm:text-xs font-semibold text-primary">
               {caseStudies.length} Total
             </span>
           </div>
-          <h2 className="mt-0.5 font-serif text-xl sm:text-2xl font-bold text-primary">Project Case Studies</h2>
+          <h2 className="mt-0.5 font-serif text-xl sm:text-2xl md:text-3xl font-bold text-primary truncate">Project Case Studies</h2>
           <p className="mt-0.5 text-xs sm:text-sm text-muted">
             Create, manage, and publish client project case studies to the live QUMI website.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 w-full sm:w-auto">
           <button
             onClick={loadData}
             disabled={loading}
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-2.5 py-1.5 text-xs sm:text-sm font-medium text-muted hover:text-primary transition-colors disabled:opacity-50"
+            className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 rounded-md border border-border bg-surface px-3 py-2 text-xs sm:text-sm font-medium text-muted hover:text-primary transition-colors disabled:opacity-50"
             title="Refresh case studies"
           >
             <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />
-            <span className="hidden sm:inline">Refresh</span>
+            <span>Refresh</span>
           </button>
 
           <button
             onClick={openCreate}
-            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-background shadow-soft hover:bg-primary/90 transition-all hover:shadow-medium"
+            className="inline-flex flex-2 sm:flex-initial items-center justify-center gap-1.5 rounded-md bg-primary px-3.5 py-2 text-xs sm:text-sm font-semibold text-background shadow-soft hover:bg-primary/90 transition-all hover:shadow-medium"
           >
             <Plus size={16} strokeWidth={2.5} />
-            <span>Post New Case Study</span>
+            <span>Post Case Study</span>
           </button>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col gap-2.5 rounded-lg border border-border bg-surface p-3 shadow-soft md:flex-row md:items-center md:justify-between">
-        <div className="relative flex-1">
+      <div className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-3 sm:p-4 shadow-soft lg:flex-row lg:items-center lg:justify-between">
+        <div className="relative flex-1 min-w-0">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
           <input
             type="search"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Search by project name, client, tech, or problem keywords..."
-            className="w-full rounded-md border border-border bg-background py-2 pl-9 pr-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            placeholder="Search by project name, client, tech, or problem..."
+            className="w-full rounded-md border border-border bg-background py-2 pl-9 pr-3 text-xs sm:text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
 
-        {/* Industry Pill Filter */}
-        <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto">
-          {availableIndustries.map(ind => {
-            const active = selectedIndustry.toLowerCase() === ind.toLowerCase();
-            return (
+        <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between lg:justify-end">
+          {/* Industry Pill Filter - Horizontal scroll on mobile, wrap on tablet/desktop */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none max-w-full">
+            {availableIndustries.map(ind => {
+              const active = selectedIndustry.toLowerCase() === ind.toLowerCase();
+              return (
+                <button
+                  key={ind}
+                  onClick={() => setSelectedIndustry(ind)}
+                  className={`rounded-md px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-colors ${active
+                      ? 'bg-primary text-background'
+                      : 'border border-border bg-background text-muted hover:border-primary/40 hover:text-primary'
+                    }`}
+                >
+                  {ind}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Status Filter */}
+          <div className="flex items-center gap-1 border-t border-border/60 pt-2 sm:border-t-0 sm:border-l sm:pl-3 sm:pt-0 shrink-0">
+            {(['All', 'Published', 'Draft'] as const).map(s => (
               <button
-                key={ind}
-                onClick={() => setSelectedIndustry(ind)}
-                className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${active
-                    ? 'bg-primary text-background'
-                    : 'border border-border bg-background text-muted hover:border-primary/40 hover:text-primary'
+                key={s}
+                onClick={() => setStatusFilter(s)}
+                className={`rounded px-2 py-1 text-xs font-medium transition ${statusFilter === s ? 'bg-primary/10 font-bold text-primary' : 'text-muted hover:text-primary'
                   }`}
               >
-                {ind}
+                {s}
               </button>
-            );
-          })}
-        </div>
-
-        {/* Status Filter */}
-        <div className="flex items-center gap-1 border-l border-border pl-3">
-          {(['All', 'Published', 'Draft'] as const).map(s => (
-            <button
-              key={s}
-              onClick={() => setStatusFilter(s)}
-              className={`rounded px-2 py-1 text-xs font-medium transition ${statusFilter === s ? 'bg-primary/10 font-bold text-primary' : 'text-muted hover:text-primary'
-                }`}
-            >
-              {s}
-            </button>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
@@ -386,8 +397,8 @@ export function CaseStudiesView() {
       {error && (
         <div className="flex items-center gap-3 rounded-md border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-500">
           <AlertCircle size={20} className="shrink-0" />
-          <span>{error}</span>
-          <button onClick={loadData} className="ml-auto text-xs underline font-semibold">
+          <span className="flex-1 break-words">{error}</span>
+          <button onClick={loadData} className="ml-auto text-xs underline font-semibold shrink-0">
             Retry
           </button>
         </div>
@@ -395,9 +406,9 @@ export function CaseStudiesView() {
 
       {/* Case Studies Grid */}
       {loading ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map(i => (
-            <div key={i} className="animate-pulse rounded-lg border border-border bg-surface p-5 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="animate-pulse rounded-lg border border-border bg-surface p-4 sm:p-5 space-y-4">
               <div className="h-40 rounded bg-border/60" />
               <div className="h-4 w-3/4 rounded bg-border" />
               <div className="h-3 w-1/2 rounded bg-border/70" />
@@ -409,31 +420,31 @@ export function CaseStudiesView() {
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-surface p-12 text-center">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-surface p-8 sm:p-12 text-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
             <FolderKanban size={24} />
           </div>
           <h3 className="mt-4 font-serif text-lg font-bold text-primary">No case studies found</h3>
-          <p className="mt-1 max-w-sm text-sm text-muted">
+          <p className="mt-1 max-w-sm text-xs sm:text-sm text-muted">
             {query || selectedIndustry !== 'All' || statusFilter !== 'All'
               ? 'Try adjusting your filters or search keywords.'
               : 'Post your first client project case study to showcase your engineering work.'}
           </p>
           <button
             onClick={openCreate}
-            className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-xs font-semibold text-background"
+            className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-xs font-semibold text-background"
           >
             <Plus size={16} /> Post Case Study
           </button>
         </div>
       ) : (
-        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5">
           {filtered.map(cs => (
             <article
               key={cs.id}
-              className="group relative flex flex-col justify-between overflow-hidden rounded-lg border border-border bg-surface shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-medium"
+              className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border bg-surface shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-medium min-w-0"
             >
-              <div>
+              <div className="min-w-0">
                 {/* Image Banner */}
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
                   {cs.image_url ? (
@@ -450,8 +461,8 @@ export function CaseStudiesView() {
                   )}
 
                   {/* Badges Overlay */}
-                  <div className="absolute left-2 top-2 flex items-center gap-1.5">
-                    <span className="rounded-md bg-background/90 px-2 py-0.5 font-mono text-[10px] font-semibold text-primary backdrop-blur-sm">
+                  <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 max-w-[55%] sm:max-w-[65%]">
+                    <span className="truncate rounded-md bg-background/90 px-2 py-0.5 font-mono text-[10px] font-semibold text-primary backdrop-blur-sm shadow-xs">
                       {cs.industry}
                     </span>
                     <button
@@ -467,7 +478,7 @@ export function CaseStudiesView() {
                   </div>
 
                   {/* External Links overlay */}
-                  <div className="absolute right-2 top-2 flex items-center gap-1.5 z-10">
+                  <div className="absolute right-2.5 top-2.5 flex items-center gap-1.5 z-10">
                     {cs.live_url && (
                       <a
                         href={cs.live_url}
@@ -493,31 +504,31 @@ export function CaseStudiesView() {
                   </div>
 
                   {cs.client && (
-                    <span className="absolute bottom-2 left-2 rounded bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
+                    <span className="absolute bottom-2.5 left-2.5 max-w-[80%] truncate rounded bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
                       {cs.client}
                     </span>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="p-3">
-                  <h3 className="font-serif text-sm sm:text-base font-bold leading-snug text-primary group-hover:text-primary transition-colors line-clamp-1">
+                <div className="p-3.5 sm:p-4 min-w-0">
+                  <h3 className="font-serif text-sm sm:text-base font-bold leading-snug text-primary group-hover:text-primary transition-colors line-clamp-2 break-words">
                     {cs.title}
                   </h3>
 
-                  <p className="mt-1 text-xs text-muted leading-relaxed line-clamp-2">
+                  <p className="mt-1.5 text-xs text-muted leading-relaxed line-clamp-2 break-words">
                     {cs.solution || cs.problem}
                   </p>
 
                   {cs.result && (
-                    <div className="mt-2 flex items-center gap-1.5 text-[11px] font-medium text-primary">
+                    <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-medium text-primary min-w-0">
                       <span className="shrink-0 text-xs">✦</span>
                       <span className="truncate">{cs.result}</span>
                     </div>
                   )}
 
                   {/* Tech stack tags */}
-                  <div className="mt-2 flex flex-wrap gap-1">
+                  <div className="mt-2.5 flex flex-wrap gap-1 min-w-0">
                     {cs.technology
                       .split(',')
                       .map(t => t.trim())
@@ -526,13 +537,13 @@ export function CaseStudiesView() {
                       .map(tech => (
                         <span
                           key={tech}
-                          className="rounded border border-border bg-background px-1.5 py-0.2 font-mono text-[10px] text-muted"
+                          className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted truncate max-w-[120px]"
                         >
                           {tech}
                         </span>
                       ))}
                     {cs.technology.split(',').length > 3 && (
-                      <span className="rounded border border-border bg-background px-1 py-0.2 font-mono text-[9px] text-muted">
+                      <span className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[9px] text-muted">
                         +{cs.technology.split(',').length - 3}
                       </span>
                     )}
@@ -541,12 +552,12 @@ export function CaseStudiesView() {
               </div>
 
               {/* Bottom Actions */}
-              <div className="flex items-center justify-between border-t border-border bg-surface-alt/40 px-3 py-1.5 text-xs">
+              <div className="flex items-center justify-between border-t border-border bg-surface-alt/40 px-3.5 py-2 text-xs">
                 <span className="text-muted font-mono text-[10px]">
                   {cs.created_at ? new Date(cs.created_at).toLocaleDateString() : 'Active'}
                 </span>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <button
                     onClick={() => openEdit(cs)}
                     className="font-semibold text-primary hover:underline text-xs"
@@ -556,7 +567,7 @@ export function CaseStudiesView() {
                   <span className="text-border">|</span>
                   <button
                     onClick={() => setDeleteId(cs.id)}
-                    className="text-red-500 hover:text-red-600 transition text-xs"
+                    className="text-red-500 hover:text-red-600 transition text-xs font-medium"
                     title="Delete case study"
                   >
                     Delete
@@ -571,31 +582,32 @@ export function CaseStudiesView() {
       {/* CREATE / EDIT MODAL */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2 sm:p-4 md:p-6 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
         >
-          <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-2xl animate-fade-in-up">
+          <div className="flex max-h-[94vh] sm:max-h-[90vh] w-full max-w-2xl lg:max-w-3xl 2xl:max-w-4xl flex-col overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-surface shadow-2xl animate-fade-in-up">
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-border bg-surface-alt/50 px-4 py-3">
-              <div>
-                <h3 className="font-serif text-base sm:text-lg font-bold text-primary">
+            <div className="flex items-center justify-between border-b border-border bg-surface-alt/50 px-4 sm:px-6 py-3.5 sm:py-4">
+              <div className="min-w-0 pr-4">
+                <h3 className="font-serif text-base sm:text-lg md:text-xl font-bold text-primary truncate">
                   {editingId ? 'Edit Project Case Study' : 'Post New Project Case Study'}
                 </h3>
-                <p className="text-xs text-muted">
+                <p className="text-xs text-muted mt-0.5 line-clamp-1">
                   Fill in the project details below. This will appear live on the public solutions & case studies showcase.
                 </p>
               </div>
               <button
                 onClick={() => !saving && setIsModalOpen(false)}
-                className="rounded-md p-1.5 text-muted hover:bg-surface hover:text-primary transition"
+                className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg text-muted hover:bg-surface hover:text-primary transition shrink-0 active:scale-95"
+                aria-label="Close modal"
               >
                 <X size={18} />
               </button>
             </div>
 
             {/* Modal Form Body */}
-            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-5">
               {formError && (
                 <div className="flex items-center gap-2 rounded-md border border-red-500/20 bg-red-500/10 p-3 text-xs text-red-500">
                   <AlertCircle size={16} />
@@ -780,34 +792,44 @@ export function CaseStudiesView() {
 
               {/* Cover Image & Upload */}
               <div className="rounded-lg border border-border bg-surface-alt/30 p-4 space-y-3">
-                <label className="block text-xs font-semibold text-primary">Cover Image</label>
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-semibold text-primary">Cover Image</label>
+                  {formData.image_url && (
+                    <span className="inline-flex items-center gap-1 rounded bg-surface px-1.5 py-0.5 text-[10px] text-muted border border-border">
+                      {formData.image_url.includes('cloudinary') ? (
+                        <>☁️ Cloudinary Upload</>
+                      ) : (
+                        <>🌐 Image Link</>
+                      )}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
                   <input
                     type="url"
                     value={formData.image_url || ''}
                     onChange={e => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
-                    placeholder="https://images.unsplash.com/... or paste image URL"
-                    className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-xs focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    placeholder="https://... (paste link or upload file)"
+                    className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-xs sm:text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   />
-                  <div className="flex items-center gap-2">
-                    <label className="cursor-pointer inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-3 py-2 text-xs font-medium text-primary hover:bg-surface transition">
-                      {uploadingImage ? <Loader2 size={14} className="animate-spin" /> : <UploadCloud size={14} />}
-                      <span>Upload File</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageFileChange}
-                        disabled={uploadingImage}
-                        className="sr-only"
-                      />
-                    </label>
-                  </div>
+                  <label className="cursor-pointer inline-flex items-center justify-center gap-1.5 rounded-md border border-border bg-background px-3.5 py-2 text-xs font-medium text-primary hover:bg-surface transition w-full sm:w-auto shrink-0">
+                    {uploadingImage ? <Loader2 size={14} className="animate-spin text-primary" /> : <UploadCloud size={14} />}
+                    <span>{uploadingImage ? 'Uploading...' : 'Upload Image'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageFileChange}
+                      disabled={uploadingImage}
+                      className="sr-only"
+                    />
+                  </label>
                 </div>
 
                 {/* Preset image selector */}
                 <div>
                   <span className="text-[11px] text-muted">Or pick a curated banner:</span>
-                  <div className="mt-1.5 flex flex-wrap gap-2">
+                  <div className="mt-1.5 flex flex-wrap gap-1.5">
                     {PRESET_IMAGES.map(preset => (
                       <button
                         type="button"
@@ -822,40 +844,58 @@ export function CaseStudiesView() {
                 </div>
 
                 {formData.image_url && (
-                  <div className="relative aspect-video w-48 overflow-hidden rounded border border-border">
-                    <img src={formData.image_url} alt="Preview" className="h-full w-full object-cover" />
+                  <div className="relative aspect-video w-full sm:w-72 md:w-80 overflow-hidden rounded-lg border border-border group bg-background">
+                    <img
+                      src={formData.image_url}
+                      alt="Cover Preview"
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=80';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, image_url: '' }))}
+                        className="rounded bg-red-600/90 hover:bg-red-600 text-white px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 shadow-sm transition"
+                        title="Remove image"
+                      >
+                        <Trash2 size={13} />
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
 
               {/* Publish Toggle */}
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex items-center gap-3 pt-1">
                 <input
                   type="checkbox"
                   id="is_published"
                   checked={formData.is_published}
                   onChange={e => setFormData(prev => ({ ...prev, is_published: e.target.checked }))}
-                  className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                  className="h-4 w-4 rounded border-border text-primary focus:ring-primary cursor-pointer"
                 />
-                <label htmlFor="is_published" className="text-sm font-medium text-primary cursor-pointer">
+                <label htmlFor="is_published" className="text-xs sm:text-sm font-medium text-primary cursor-pointer">
                   Publish immediately to client website
                 </label>
               </div>
 
               {/* Submit Buttons */}
-              <div className="flex items-center justify-end gap-2.5 border-t border-border pt-3">
+              <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-2.5 border-t border-border pt-4">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   disabled={saving}
-                  className="rounded-md border border-border px-3.5 py-1.5 text-xs sm:text-sm font-medium text-muted hover:bg-surface-alt transition"
+                  className="rounded-md border border-border px-4 py-2 text-xs sm:text-sm font-medium text-muted hover:bg-surface-alt transition text-center"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs sm:text-sm font-semibold text-background shadow-soft hover:bg-primary/90 transition disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-primary px-5 py-2 text-xs sm:text-sm font-semibold text-background shadow-soft hover:bg-primary/90 transition disabled:opacity-50 text-center"
                 >
                   {saving && <Loader2 size={15} className="animate-spin" />}
                   <span>{editingId ? 'Save Changes' : 'Post Case Study'}</span>
@@ -868,29 +908,32 @@ export function CaseStudiesView() {
 
       {/* DELETE CONFIRMATION MODAL */}
       {deleteId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-fade-in-up">
-          <div className="w-full max-w-md rounded-xl border border-border bg-surface p-4 sm:p-5 shadow-2xl space-y-3">
-            <div className="flex items-center gap-2.5 text-red-500">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-500/10">
-                <AlertCircle size={18} />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-fade-in-up">
+          <div className="w-full max-w-md rounded-xl sm:rounded-2xl border border-border bg-surface p-4 sm:p-6 shadow-2xl space-y-3.5">
+            <div className="flex items-center gap-3 text-red-500">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/10">
+                <AlertCircle size={20} />
               </div>
-              <h3 className="text-base sm:text-lg font-serif font-bold text-primary">Delete Case Study?</h3>
+              <div>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-primary">Delete Case Study?</h3>
+                <p className="text-xs text-muted">This action cannot be undone.</p>
+              </div>
             </div>
-            <p className="text-xs sm:text-sm text-muted">
+            <p className="text-xs sm:text-sm text-muted leading-relaxed">
               Are you sure you want to permanently remove this project case study? It will be immediately removed from the live website showcase.
             </p>
-            <div className="flex justify-end gap-2.5 pt-1.5">
+            <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-2.5 pt-2">
               <button
                 onClick={() => setDeleteId(null)}
                 disabled={isDeleting}
-                className="rounded-md border border-border px-3.5 py-1.5 text-xs font-semibold text-muted hover:bg-surface-alt transition"
+                className="rounded-md border border-border px-4 py-2 text-xs font-semibold text-muted hover:bg-surface-alt transition text-center"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
                 disabled={isDeleting}
-                className="rounded-md bg-red-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-red-700 transition disabled:opacity-50"
+                className="rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 transition disabled:opacity-50 text-center shadow-soft"
               >
                 {isDeleting ? 'Deleting...' : 'Yes, Delete'}
               </button>

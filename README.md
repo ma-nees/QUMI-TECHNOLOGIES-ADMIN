@@ -37,8 +37,13 @@ MISTRAL_API_KEY=your_mistral_api_key
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your_email@gmail.com
-SMTP_PASSWORD=your_gmail_app_password
 COMPANY_NAME=QUMI Technologies
+
+# Cloudinary Configuration (For Image Uploads)
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+# Alternatively: CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>
 ```
 
 ### Installation

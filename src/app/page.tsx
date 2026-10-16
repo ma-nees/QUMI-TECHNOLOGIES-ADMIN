@@ -176,7 +176,7 @@ export default function AdminDashboard() {
           </div>
         </header>
 
-        <div key={activeTab} className="mx-auto w-full max-w-7xl p-3 sm:p-5 lg:p-6 animate-fade-in-up">
+        <div key={activeTab} className="mx-auto w-full max-w-7xl 2xl:max-w-[1600px] p-3 sm:p-5 lg:p-6 2xl:p-8 animate-fade-in-up">
           {activeTab === 'Case Studies' && <CaseStudiesView />}
           {activeTab === 'Messages' && <MessagesView />}
           {activeTab === 'Jobs' && <JobsView />}
