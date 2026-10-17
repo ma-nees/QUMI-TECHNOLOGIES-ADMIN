@@ -71,9 +71,10 @@ export async function fetchSettings() {
 }
 
 export async function saveSettings(settingsData: any) {
+  const { created_at, ...cleanData } = settingsData || {};
   const { error } = await getSupabase()
     .from('company_settings')
-    .upsert({ id: 1, ...settingsData });
+    .upsert({ id: 1, ...cleanData });
     
   if (error) throw new Error(error.message);
   return { success: true };

@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AlertCircle, Check, CheckCircle2, Loader2, MapPin, Phone, RefreshCw } from 'lucide-react';
+import { AlertCircle, Check, CheckCircle2, Loader2, Mail, MapPin, Phone, RefreshCw } from 'lucide-react';
 import { fetchSettings, saveSettings } from '@/actions';
 
 type SettingsState = {
@@ -162,15 +162,15 @@ export function SettingsView() {
       const trimmed = Object.fromEntries(
         (Object.keys(settings) as (keyof SettingsState)[]).map(k => [k, settings[k].trim()]),
       ) as SettingsState;
-      await saveSettings({ ...rawRow, ...trimmed } as any);
+      await saveSettings({ id: 1, ...trimmed });
       setSettings(trimmed);
       setSaved(trimmed);
       setJustSaved(true);
       setTouched(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to save settings:', error);
       setSaveError(
-        'The settings could not be saved. Please confirm the company_settings table exists in the database and try again.',
+        error?.message || 'The settings could not be saved. Please confirm database permissions and try again.',
       );
     }
     setSaving(false);
@@ -212,8 +212,7 @@ export function SettingsView() {
                     Contact email
                   </label>
                   <div className="relative">
-                    {/* Re-using a lucide icon for email, but wait, I didn't import Mail here. I will just use the @ symbol or import Mail. Mail is not imported, let's just use @ text as icon */}
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted font-bold text-lg leading-none">@</span>
+                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                     <input
                       id="email"
                       type="email"
@@ -299,6 +298,12 @@ export function SettingsView() {
 
                 <ul className="mt-5 space-y-3 text-sm">
                   <li className="flex items-start gap-3">
+                    <Mail size={16} className="mt-0.5 shrink-0 text-background/80" />
+                    <span className={settings.email ? 'text-background break-all' : 'text-background/50'}>
+                      {settings.email || 'Email not set'}
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
                     <MapPin size={16} className="mt-0.5 shrink-0 text-background/80" />
                     <span className={settings.location ? 'text-background' : 'text-background/50'}>
                       {settings.location || 'Location not set'}
@@ -338,7 +343,7 @@ export function SettingsView() {
                 <span>Profile completeness</span>
                 <span className="text-primary">
                   {Math.round(
-                    (((settings.location ? 1 : 0) + (settings.mobile_number ? 1 : 0) + connected) / (2 + SOCIALS.length)) * 100,
+                    (((settings.email ? 1 : 0) + (settings.location ? 1 : 0) + (settings.mobile_number ? 1 : 0) + connected) / (3 + SOCIALS.length)) * 100,
                   )}
                   %
                 </span>
@@ -348,7 +353,7 @@ export function SettingsView() {
                   className="h-full rounded-full bg-primary transition-all duration-500"
                   style={{
                     width: `${Math.round(
-                      (((settings.location ? 1 : 0) + (settings.mobile_number ? 1 : 0) + connected) / (2 + SOCIALS.length)) *
+                      (((settings.email ? 1 : 0) + (settings.location ? 1 : 0) + (settings.mobile_number ? 1 : 0) + connected) / (3 + SOCIALS.length)) *
                       100,
                     )}%`,
                   }}
